@@ -31,7 +31,7 @@
                     <navigationItem key="navigationItem" title="To do" id="hrW-qD-sAH">
                         <barButtonItem key="rightBarButtonItem" title="Add" image="plus" catalog="system" id="b5r-jp-5Sh">
                             <connections>
-                                <action selector="clickedAddButton:" destination="BYZ-38-t0r" id="U7w-aP-KLd"/>
+                                <segue destination="Zcp-ul-Lir" kind="presentation" id="cfi-Yx-Dx4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -42,6 +42,57 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+        </scene>
+        <!--Add Todo View Controller-->
+        <scene sceneID="bdo-5D-0Mc">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="Zcp-ul-Lir" customClass="AddTodoViewController" customModule="todoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nUK-rW-bFi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBp-oJ-KH0">
+                                <rect key="frame" x="20" y="74" width="72" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="xmark" catalog="system"/>
+                                <connections>
+                                    <action selector="exitButtonPressed:" destination="Zcp-ul-Lir" eventType="touchUpInside" id="w9t-dP-2YY"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ksC-ob-n8Z">
+                                <rect key="frame" x="43" y="139" width="232" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Description" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ozJ-Pe-ejp">
+                                <rect key="frame" x="43" y="200" width="97" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUT-md-GIf">
+                                <rect key="frame" x="329" y="66" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveButtonPressed:" destination="Zcp-ul-Lir" eventType="touchUpInside" id="3Eg-41-XwA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="VJr-cg-adQ"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="txtDescription" destination="ozJ-Pe-ejp" id="d3b-ae-QFg"/>
+                        <outlet property="txtTitle" destination="ksC-ob-n8Z" id="hBR-e1-0dd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oFc-TP-ICK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1789.8550724637682" y="137.94642857142856"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Clb-My-Obz">
@@ -64,5 +115,6 @@
     </scenes>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
     </resources>
 </document>

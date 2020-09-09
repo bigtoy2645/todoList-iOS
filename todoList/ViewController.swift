@@ -8,31 +8,21 @@
 
 import UIKit
 
+var todoList: [Todo] = []
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tblTodo: UITableView!
-    var todoList: [Todo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        // TODO - 이전 데이터 불러오기
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // TODO - 이전 데이터 불러오기
-    }
-
-    /* 할 일 추가 */
-    @IBAction func clickedAddButton(_ sender: UIBarButtonItem) {
-        // TODO - 데이터 입력받기
-        let todoObject = Todo(title: "title", subTitle: "", completed: false)
-        todoList.append(todoObject)
-        reloadData()
-    }
-    
-    func reloadData() {
+        // 테이블 데이터 갱신
         tblTodo.reloadData()
     }
     
@@ -46,7 +36,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "TodoCell")
         
         cell.textLabel?.text = "\(todoList[indexPath.row].title)"
-        cell.detailTextLabel?.text = "Subtitle #\(indexPath.row)"
+        cell.detailTextLabel?.text = "\(todoList[indexPath.row].description ?? "")"
         
         return cell
     }

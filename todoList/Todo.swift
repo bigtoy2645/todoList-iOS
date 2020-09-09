@@ -6,10 +6,15 @@
 //  Copyright © 2020 yurim. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct Todo {
     let title: String
-    let subTitle: String
+    let description: String?
     let completed: Bool
+    
+    /* TODO
+    let color: UIColor
+    let date: Date
+     */
 }
