@@ -41,5 +41,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    /* 리스트 선택 시 체크 */
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 이미 체크되있는 경우 return
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if cell.accessoryType == .checkmark {
+                cell.accessoryType = .none
+            }
+            else{
+                cell.accessoryType = .checkmark
+            }
+        }
+    }
+    
+    /* cell 삭제 */
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        todoList.remove(at: indexPath.row)
+        tblTodo.reloadData()
+    }
+    
 }
 
