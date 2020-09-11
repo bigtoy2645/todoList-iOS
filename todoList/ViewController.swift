@@ -16,12 +16,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO - 이전 데이터 불러오기
+        // 이전 데이터 불러오기
+        loadAllData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // 데이터 저장
+        saveAllData()
         // 테이블 데이터 갱신
         tblTodo.reloadData()
     }
@@ -49,9 +52,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let cell = tableView.cellForRow(at: indexPath) {
             if cell.accessoryType == .checkmark {
                 cell.accessoryType = .none
+                todoList[indexPath.row].completed = false
             }
             else{
                 cell.accessoryType = .checkmark
+                todoList[indexPath.row].completed = true
             }
         }
     }
@@ -62,5 +67,36 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tblTodo.reloadData()
     }
     
+    func saveAllData() {
+        let data = todoList.map { [
+            "title": $0.title,
+            "description": $0.description ?? "",
+            "complete": $0.completed,
+            "date": $0.date ?? ""
+            ]
+        }
+        
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(data, forKey: "items")
+        userDefaults.synchronize()  // 동기화
+    }
+    
+    // userDefault 데이터 불러오기
+    func loadAllData() {
+        let userDefaults = UserDefaults.standard
+        guard let data = userDefaults.object(forKey: "items") as? [[String: AnyObject]] else {
+            return
+        }
+        
+        // list 배열에 저장하기
+        todoList = data.map {
+            let title = $0["title"] as? String
+            let description = $0["description"] as? String
+            let complete = $0["complete"] as? Bool
+            let date = $0["date"] as? String
+            
+            return Todo(title: title!, description: description, completed: complete!, date: date)
+        }
+    }
 }
 

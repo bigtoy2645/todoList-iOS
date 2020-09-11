@@ -35,7 +35,8 @@ class AddTaskViewController: UIViewController {
             return
         }
         let description = txtDescription.text
-        let todoObject = Todo(title: txtTitle.text!, description: description, completed: false)
+        let date = txtDate.text
+        let todoObject = Todo(title: txtTitle.text!, description: description, completed: false, date: date)
         todoList.append(todoObject)
         
         // 리스트 화면으로 돌아가기
