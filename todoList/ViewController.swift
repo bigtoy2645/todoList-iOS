@@ -67,6 +67,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tblTodo.reloadData()
     }
     
+    /* 데이터 저장 */
     func saveAllData() {
         let data = todoList.map { [
             "title": $0.title,
@@ -81,7 +82,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         userDefaults.synchronize()  // 동기화
     }
     
-    // userDefault 데이터 불러오기
+    /* 데이터 불러오기 */
     func loadAllData() {
         let userDefaults = UserDefaults.standard
         guard let data = userDefaults.object(forKey: "items") as? [[String: AnyObject]] else {
