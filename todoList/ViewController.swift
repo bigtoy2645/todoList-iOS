@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var tblTodo: UITableView!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // 이전 데이터 불러오기
@@ -36,12 +37,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* cell 그리기 */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "TodoCell")
+//        let cell: UITableViewCell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "TodoCell")
         
-        cell.textLabel?.text = "\(todoList[indexPath.row].title)"
-        cell.detailTextLabel?.text = "\(todoList[indexPath.row].description ?? "")"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "mainFeatureCell", for: indexPath) as! MainFeatureCell
         
+        cell.lblTitle.text = "\(todoList[indexPath.row].title)"
+        cell.lblDescription.text = "\(todoList[indexPath.row].description ?? "")"
+        cell.lblDate.text = "\(todoList[indexPath.row].date ?? "")"
+//
+//        cell.textLabel?.text = "\(todoList[indexPath.row].title)"
+//        cell.detailTextLabel?.text = "\(todoList[indexPath.row].description ?? "")"
+
         return cell
+        
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "todocell", for: indexPath) as! TodoCell
+        
+//        let sample = self.sampleData.samples[indexPath.row]
+//
+//        cell.titleLabel.text = sample.title
+//        cell.descriptionLabel.text = sample.desription
+//        cell.featureImageView.image = UIImage(named: sample.image)
+        
+//        return cell
     }
     
     /* 리스트 선택 시 체크 */
