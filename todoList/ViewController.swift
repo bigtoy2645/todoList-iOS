@@ -14,9 +14,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var tblTodo: UITableView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // 이전 데이터 불러오기
         loadAllData()
     }
@@ -35,48 +35,46 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return todoList.count
     }
     
+    /* cell 높이 */
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if todoList[indexPath.row].description == "" {
+            return 45
+        } else {
+            return 65
+        }
+    }
+
     /* cell 그리기 */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell: UITableViewCell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "TodoCell")
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "mainFeatureCell", for: indexPath) as! MainFeatureCell
         
+        // cell 설정
         cell.lblTitle.text = "\(todoList[indexPath.row].title)"
         cell.lblDescription.text = "\(todoList[indexPath.row].description ?? "")"
-        cell.lblDate.text = "\(todoList[indexPath.row].date ?? "")"
-//
-//        cell.textLabel?.text = "\(todoList[indexPath.row].title)"
-//        cell.detailTextLabel?.text = "\(todoList[indexPath.row].description ?? "")"
+        
+        // 체크박스 버튼
+        if todoList[indexPath.row].completed == true {
+            cell.btnCheckbox.setBackgroundImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+        } else {
+            cell.btnCheckbox.setBackgroundImage(UIImage(systemName:"circle"), for: .normal)
+        }
 
+        // 체크박스 선택 시 작업 추가
+        cell.btnCheckbox.tag = indexPath.row
+        cell.btnCheckbox.addTarget(self, action: #selector(checkboxSelection(_:)), for: .touchUpInside)
+        
         return cell
-        
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "todocell", for: indexPath) as! TodoCell
-        
-//        let sample = self.sampleData.samples[indexPath.row]
-//
-//        cell.titleLabel.text = sample.title
-//        cell.descriptionLabel.text = sample.desription
-//        cell.featureImageView.image = UIImage(named: sample.image)
-        
-//        return cell
     }
     
-    /* 리스트 선택 시 체크 */
+    /* 체크박스 선택 시 동작 */
+    @objc func checkboxSelection(_ sender: UIButton) {
+        todoList[sender.tag].completed.toggle() // Bool 값 변경
+        tblTodo.reloadData()
+    }
+    
+    /* 리스트 선택 시 수정 */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 이미 체크되있는 경우 return
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        if let cell = tableView.cellForRow(at: indexPath) {
-            if cell.accessoryType == .checkmark {
-                cell.accessoryType = .none
-                todoList[indexPath.row].completed = false
-            }
-            else{
-                cell.accessoryType = .checkmark
-                todoList[indexPath.row].completed = true
-            }
-        }
+        // TODO - Edit Task 화면 표시
     }
     
     /* cell 삭제 */
