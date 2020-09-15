@@ -13,6 +13,7 @@ var todoList: [Todo] = []
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tblTodo: UITableView!
+    @IBOutlet weak var btnAdd: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +44,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return 65
         }
     }
-
+    
     /* cell 그리기 */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
@@ -58,7 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             cell.btnCheckbox.setBackgroundImage(UIImage(systemName:"circle"), for: .normal)
         }
-
+        
         // 체크박스 선택 시 작업 추가
         cell.btnCheckbox.tag = indexPath.row
         cell.btnCheckbox.addTarget(self, action: #selector(checkboxSelection(_:)), for: .touchUpInside)
@@ -72,9 +73,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tblTodo.reloadData()
     }
     
-    /* 리스트 선택 시 수정 */
+    /* cell 선택 시 수정 */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO - Edit Task 화면 표시
+        // Edit Task 화면 표시
+        guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: "addTask") as? AddTaskViewController else { return }
+        addTaskVC.mode = .edit
+        addTaskVC.indexRow = indexPath.row
+        self.present(addTaskVC, animated: true)
+    }
+    
+    /* 추가 버튼 클릭 */
+    @IBAction func addTaskButtonPressed(_ sender: Any) {
+        // Create Task 화면 표시
+        guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: "addTask") as? AddTaskViewController else { return }
+        addTaskVC.mode = .create
+        addTaskVC.indexRow = nil
+        self.present(addTaskVC, animated: true)
     }
     
     /* cell 삭제 */

@@ -9,12 +9,8 @@
 import UIKit
 
 struct Todo {
-    let title: String
-    let description: String?
+    var title: String
+    var description: String?
     var completed: Bool
-    let date: String?
-    
-    /* TODO
-    let color: UIColor
-     */
+    var date: String?
 }

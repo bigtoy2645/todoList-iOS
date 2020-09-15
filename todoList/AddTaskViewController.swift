@@ -9,18 +9,42 @@
 import UIKit
 import Foundation
 
-class AddTaskViewController: UIViewController {
+enum taskmode {
+  case create
+  case edit
+}
 
+class AddTaskViewController: UIViewController {
+    
+    var indexRow: Int?
+    var mode: taskmode = .create
+    
     @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var txtDescription: UITextField!
     @IBOutlet weak var txtDate: UITextField!
+    @IBOutlet weak var lblViewTitle: UILabel!
     
     let datePicker = UIDatePicker()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         createDatePicker()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // 모드에 따라 다르게 표시
+        if mode == .edit {
+            lblViewTitle.text = "Edit Task"
+            // 데이터 채우기
+            if let row = indexRow {
+                txtTitle.text = todoList[row].title
+                txtDescription.text = todoList[row].description
+                txtDate.text = todoList[row].date
+            }
+        } else {
+            lblViewTitle.text = "Create Task"
+        }
     }
     
     /* 할 일 추가 */
@@ -36,8 +60,15 @@ class AddTaskViewController: UIViewController {
         }
         let description = txtDescription.text
         let date = txtDate.text
-        let todoObject = Todo(title: txtTitle.text!, description: description, completed: false, date: date)
-        todoList.append(todoObject)
+        
+        if let row = indexRow {
+            todoList[row].title = txtTitle.text!
+            todoList[row].description = description
+            todoList[row].date = date
+        } else {
+            let todoObject = Todo(title: txtTitle.text!, description: description, completed: false, date: date)
+            todoList.append(todoObject)
+        }
         
         // 리스트 화면으로 돌아가기
         dismiss(animated: true, completion: nil)

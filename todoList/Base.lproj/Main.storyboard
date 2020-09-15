@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--To do-->
+        <!--Tasks-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="todoList" customModuleProvider="target" sceneMemberID="viewController">
@@ -70,24 +70,34 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="PGI-ve-gRd"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5D-x8-VZE">
+                                <rect key="frame" x="304" y="777" width="60" height="58.666666666666629"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="En9-k5-F6U"/>
+                                    <constraint firstAttribute="width" constant="60" id="PJI-mR-20i"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="plus.circle.fill" catalog="system">
+                                    <color key="titleShadowColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="addTaskButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xoh-sm-Gfh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="wtZ-Zd-BF7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="CbK-k8-5gA"/>
+                            <constraint firstAttribute="bottom" secondItem="j5D-x8-VZE" secondAttribute="bottom" constant="60" id="GyQ-Di-Xkd"/>
                             <constraint firstItem="wtZ-Zd-BF7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="MBi-HQ-J3W"/>
                             <constraint firstItem="wtZ-Zd-BF7" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Qlc-CH-Uic"/>
+                            <constraint firstAttribute="trailing" secondItem="j5D-x8-VZE" secondAttribute="trailing" constant="50" id="pbg-RN-KLV"/>
                             <constraint firstItem="wtZ-Zd-BF7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="rnX-VR-vDK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="To do" id="hrW-qD-sAH">
-                        <barButtonItem key="rightBarButtonItem" title="Add" image="plus" catalog="system" id="b5r-jp-5Sh">
-                            <connections>
-                                <segue destination="Zcp-ul-Lir" kind="presentation" id="cfi-Yx-Dx4"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Tasks" id="hrW-qD-sAH"/>
                     <connections>
+                        <outlet property="btnAdd" destination="j5D-x8-VZE" id="w7J-4w-k88"/>
                         <outlet property="tblTodo" destination="wtZ-Zd-BF7" id="683-is-YSI"/>
                     </connections>
                 </viewController>
@@ -98,7 +108,7 @@
         <!--Add Task View Controller-->
         <scene sceneID="bdo-5D-0Mc">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="Zcp-ul-Lir" customClass="AddTaskViewController" customModule="todoList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addTask" modalPresentationStyle="fullScreen" id="Zcp-ul-Lir" customClass="AddTaskViewController" customModule="todoList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nUK-rW-bFi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -158,6 +168,7 @@
                             <constraint firstItem="VJr-cg-adQ" firstAttribute="trailing" secondItem="OUT-md-GIf" secondAttribute="trailing" constant="20" id="57M-WP-vDc"/>
                             <constraint firstItem="ozJ-Pe-ejp" firstAttribute="leading" secondItem="MUb-TM-27u" secondAttribute="trailing" constant="20" id="6yN-w7-QZG"/>
                             <constraint firstItem="ksC-ob-n8Z" firstAttribute="top" secondItem="Wla-xu-liy" secondAttribute="bottom" constant="30" id="9LC-6g-flM"/>
+                            <constraint firstItem="OUT-md-GIf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GBp-oJ-KH0" secondAttribute="trailing" constant="8" symbolic="YES" id="ENI-fG-H3b"/>
                             <constraint firstItem="VJr-cg-adQ" firstAttribute="trailing" secondItem="ksC-ob-n8Z" secondAttribute="trailing" constant="20" id="Hlf-0p-mY3"/>
                             <constraint firstItem="o4s-Rt-S9h" firstAttribute="top" secondItem="MUb-TM-27u" secondAttribute="bottom" constant="20" id="L8k-RK-6Lu"/>
                             <constraint firstItem="ksC-ob-n8Z" firstAttribute="leading" secondItem="VJr-cg-adQ" secondAttribute="leading" constant="20" id="LeJ-Jc-Wxd"/>
@@ -181,6 +192,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="lblViewTitle" destination="Wla-xu-liy" id="qto-QN-oPn"/>
                         <outlet property="txtDate" destination="ZMx-QC-3Co" id="7PR-7e-eZz"/>
                         <outlet property="txtDescription" destination="ozJ-Pe-ejp" id="d3b-ae-QFg"/>
                         <outlet property="txtTitle" destination="ksC-ob-n8Z" id="hBR-e1-0dd"/>
@@ -16885,7 +16897,7 @@ AA9BOQAPQUEAAAAAAAAEAQAAAAAAAABVAAAAAAAAAAAAAAAAAA9BRA
         </image>
         <image name="calendar" catalog="system" width="128" height="106"/>
         <image name="doc.plaintext" catalog="system" width="115" height="128"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
     </resources>
 </document>
