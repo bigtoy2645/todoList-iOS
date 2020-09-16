@@ -48,13 +48,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     /* cell 그리기 */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
+        let task = todoList[indexPath.row]
         
         // cell 설정
-        cell.lblTitle.text = "\(todoList[indexPath.row].title)"
-        cell.lblDescription.text = "\(todoList[indexPath.row].description ?? "")"
+        cell.lblTitle.text = "\(task.title)"
+        if task.startTime == "" && task.endTime == "" {
+            cell.lblDescription.text = "\(task.description ?? "")"
+        } else {
+            cell.lblDescription.text = "\(task.startTime ?? "") ~ \(task.endTime ?? "") \(task.description ?? "")"
+        }
         
         // 체크박스 버튼
-        if todoList[indexPath.row].completed == true {
+        if task.completed == true {
             cell.btnCheckbox.setBackgroundImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         } else {
             cell.btnCheckbox.setBackgroundImage(UIImage(systemName:"circle"), for: .normal)
@@ -101,9 +106,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func saveAllData() {
         let data = todoList.map { [
             "title": $0.title,
+            "date": $0.date,
+            "startTime": $0.startTime ?? "",
+            "endTime": $0.endTime ?? "",
             "description": $0.description ?? "",
-            "complete": $0.completed,
-            "date": $0.date ?? ""
+            "complete": $0.completed
             ]
         }
         
@@ -122,11 +129,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // list 배열에 저장하기
         todoList = data.map {
             let title = $0["title"] as? String
+            let date = $0["date"] as? String
+            let startTime = $0["startTime"] as? String
+            let endTime = $0["endTime"] as? String
             let description = $0["description"] as? String
             let complete = $0["complete"] as? Bool
-            let date = $0["date"] as? String
             
-            return Todo(title: title!, description: description, completed: complete!, date: date)
+            return Todo(title: title!, date: date!, startTime: startTime, endTime: endTime, description: description, completed: complete!)
         }
     }
 }

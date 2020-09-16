@@ -10,7 +10,9 @@ import UIKit
 
 struct Todo {
     var title: String
+    var date: String
+    var startTime: String?
+    var endTime: String?
     var description: String?
     var completed: Bool
-    var date: String?
 }
