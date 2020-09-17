@@ -19,12 +19,12 @@ class AddTaskViewController: UIViewController {
     var indexRow: Int?
     var mode: taskmode = .create
     
-    @IBOutlet weak var lblViewTitle: UILabel!
     @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var txtDate: UITextField!
     @IBOutlet weak var txtStartTime: UITextField!
     @IBOutlet weak var txtEndTime: UITextField!
     @IBOutlet weak var txtDescription: UITextField!
+    @IBOutlet weak var btnSave: UIBarButtonItem!
     
     let datePicker = UIDatePicker()
     
@@ -32,12 +32,24 @@ class AddTaskViewController: UIViewController {
         super.viewDidLoad()
         
         createDatePicker()
+        
+        [txtTitle, txtDate].forEach({ $0.addTarget(self, action: #selector(requiredTextChanged), for: .editingChanged) })
+        [txtDate, txtStartTime, txtEndTime].forEach({ $0.addTarget(self, action: #selector(dateTextTouched), for: .touchDown) })
+    }
+    
+    @objc func dateTextTouched(_ textField: UITextField) {
+        if textField == txtDate {
+            datePicker.datePickerMode = .date
+        } else {
+            datePicker.datePickerMode = .time
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // 모드에 따라 다르게 표시
         if mode == .edit {
-            lblViewTitle.text = "Edit Task"
+            self.title = "Edit Task"
+            btnSave.isEnabled = true
             // 데이터 채우기
             if let row = indexRow {
                 txtTitle.text = todoList[row].title
@@ -47,71 +59,96 @@ class AddTaskViewController: UIViewController {
                 txtEndTime.text = todoList[row].endTime
             }
         } else {
-            lblViewTitle.text = "Create Task"
-            setDatePickerValue()
+            self.title = "Create Task"
+            btnSave.isEnabled = false
+            txtDate.text = getDatePickerDateValue()
         }
     }
     
-    /* 할 일 추가 */
+    /* 필수 항목 입력 시 저장 버튼 활성화 */
+    @objc func requiredTextChanged(_ textField: UITextField) {
+        guard
+            let taskTitle = txtTitle.text, !taskTitle.isEmpty,
+            let taskDate = txtDate.text, !taskDate.isEmpty
+        else {
+            btnSave.isEnabled = false
+            return
+        }
+        btnSave.isEnabled = true
+    }
+    
+    /* 할 일 추가/수정 */
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         txtTitle.endEditing(true)
         txtDescription.endEditing(true)
-        if let title = txtTitle.text, title.isEmpty {
-            let alert = UIAlertController(title: "Please enter a title.", message: "", preferredStyle: .alert)
-            let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alert.addAction(action)
-            present(alert, animated: true, completion: nil)
-            return
-        }
+        
+        let title = txtTitle.text!
+        let date = txtDate.text!
         let startTime = txtStartTime.text
         let endTime = txtEndTime.text
         let description = txtDescription.text
         
         if let row = indexRow {
-            todoList[row].title = txtTitle.text!
-            todoList[row].date = txtDate.text!
+            todoList[row].title = title
+            todoList[row].date = date
             todoList[row].startTime = startTime
             todoList[row].endTime = endTime
             todoList[row].description = description
         } else {
-            let todoObject = Todo(title: txtTitle.text!, date: txtDate.text!, startTime: startTime, endTime: endTime, description: description, completed: false)
+            let todoObject = Todo(title: title, date: date, startTime: startTime, endTime: endTime, description: description, completed: false)
             todoList.append(todoObject)
         }
         
         // 리스트 화면으로 돌아가기
-        dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    /* 나가기 버튼 클릭 */
-    @IBAction func exitButtonPressed(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    /* */
-    func setDatePickerValue() {
+    /* 날짜 형식 문자열 */
+    func getDatePickerDateValue() -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
         
-        txtDate.text = formatter.string(from: datePicker.date)
+        return formatter.string(from: datePicker.date)
     }
     
-    /* */
+    /* 시간 형식 문자열 */
+    func getDatePickerTimeValue() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        
+        return formatter.string(from: datePicker.date)
+    }
+    
+    /* DatePicker 생성 */
     func createDatePicker() {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
-        let btnDone = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+        let btnDone = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
         toolbar.setItems([btnDone], animated: true)
-        txtDate.inputAccessoryView = toolbar
-        txtDate.inputView = datePicker
         
-        datePicker.datePickerMode = .date
+        txtDate.inputView = datePicker
+        txtStartTime.inputView = datePicker
+        txtEndTime.inputView = datePicker
+        
+        txtDate.inputAccessoryView = toolbar
+        txtStartTime.inputAccessoryView = toolbar
+        txtEndTime.inputAccessoryView = toolbar
     }
     
-    /*  */
+    /* 날짜/시간 선택 완료 */
     @objc func donePressed() {
-        setDatePickerValue()
+        // TextField에 따라 다르게 표시
+        if txtDate.isFirstResponder {
+            txtDate.text = getDatePickerDateValue()
+        } else if txtStartTime.isFirstResponder {
+            txtStartTime.text = getDatePickerTimeValue()
+        } else if txtEndTime.isFirstResponder {
+            txtEndTime.text = getDatePickerTimeValue()
+        } else {}
+        
         self.view.endEditing(true)
     }
 }

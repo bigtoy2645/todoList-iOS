@@ -38,7 +38,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* cell 높이 */
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if todoList[indexPath.row].description == "" {
+        let task = todoList[indexPath.row]
+        if task.description == "", task.startTime == "", task.endTime == "" {
             return 45
         } else {
             return 65
@@ -84,7 +85,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: "addTask") as? AddTaskViewController else { return }
         addTaskVC.mode = .edit
         addTaskVC.indexRow = indexPath.row
-        self.present(addTaskVC, animated: true)
+        self.navigationController?.pushViewController(addTaskVC, animated: true)
     }
     
     /* 추가 버튼 클릭 */
@@ -93,7 +94,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: "addTask") as? AddTaskViewController else { return }
         addTaskVC.mode = .create
         addTaskVC.indexRow = nil
-        self.present(addTaskVC, animated: true)
+        self.navigationController?.pushViewController(addTaskVC, animated: true)
     }
     
     /* cell 삭제 */

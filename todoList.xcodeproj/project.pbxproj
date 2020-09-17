@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1A932B42250668C300E138BA /* todoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A932B42250668C300E138BA /* DailyCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A932B45250668C300E138BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A932B47250668C300E138BA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1A932B49250668C300E138BA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 		1A932B43250668C300E138BA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1A932B42250668C300E138BA /* todoList.app */,
+				1A932B42250668C300E138BA /* DailyCheck.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 			);
 			name = todoList;
 			productName = todoList;
-			productReference = 1A932B42250668C300E138BA /* todoList.app */;
+			productReference = 1A932B42250668C300E138BA /* DailyCheck.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -327,7 +327,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yurim.todoList;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DailyCheck;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -344,7 +344,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yurim.todoList;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DailyCheck;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
