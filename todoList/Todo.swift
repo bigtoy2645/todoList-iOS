@@ -11,8 +11,13 @@ import UIKit
 struct Todo {
     var title: String
     var date: String
-    var startTime: String?
-    var endTime: String?
+    var time: String?
     var description: String?
     var completed: Bool
+}
+
+struct DailyTask {
+    var date: Date
+    var scheduled: [Todo]
+    var anytime: [Todo]
 }

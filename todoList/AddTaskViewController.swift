@@ -21,8 +21,7 @@ class AddTaskViewController: UIViewController {
     
     @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var txtDate: UITextField!
-    @IBOutlet weak var txtStartTime: UITextField!
-    @IBOutlet weak var txtEndTime: UITextField!
+    @IBOutlet weak var txtTime: UITextField!
     @IBOutlet weak var txtDescription: UITextField!
     @IBOutlet weak var btnSave: UIBarButtonItem!
     
@@ -34,7 +33,7 @@ class AddTaskViewController: UIViewController {
         createDatePicker()
         
         [txtTitle, txtDate].forEach({ $0.addTarget(self, action: #selector(requiredTextChanged), for: .editingChanged) })
-        [txtDate, txtStartTime, txtEndTime].forEach({ $0.addTarget(self, action: #selector(dateTextTouched), for: .touchDown) })
+        [txtDate, txtTime].forEach({ $0.addTarget(self, action: #selector(dateTextTouched), for: .touchDown) })
     }
     
     @objc func dateTextTouched(_ textField: UITextField) {
@@ -55,8 +54,7 @@ class AddTaskViewController: UIViewController {
                 txtTitle.text = todoList[row].title
                 txtDescription.text = todoList[row].description
                 txtDate.text = todoList[row].date
-                txtStartTime.text = todoList[row].startTime
-                txtEndTime.text = todoList[row].endTime
+                txtTime.text = todoList[row].time
             }
         } else {
             self.title = "Create Task"
@@ -84,18 +82,16 @@ class AddTaskViewController: UIViewController {
         
         let title = txtTitle.text!
         let date = txtDate.text!
-        let startTime = txtStartTime.text
-        let endTime = txtEndTime.text
+        let time = txtTime.text
         let description = txtDescription.text
         
         if let row = indexRow {
             todoList[row].title = title
             todoList[row].date = date
-            todoList[row].startTime = startTime
-            todoList[row].endTime = endTime
+            todoList[row].time = time
             todoList[row].description = description
         } else {
-            let todoObject = Todo(title: title, date: date, startTime: startTime, endTime: endTime, description: description, completed: false)
+            let todoObject = Todo(title: title, date: date, time: time, description: description, completed: false)
             todoList.append(todoObject)
         }
         
@@ -130,12 +126,10 @@ class AddTaskViewController: UIViewController {
         toolbar.setItems([btnDone], animated: true)
         
         txtDate.inputView = datePicker
-        txtStartTime.inputView = datePicker
-        txtEndTime.inputView = datePicker
+        txtTime.inputView = datePicker
         
         txtDate.inputAccessoryView = toolbar
-        txtStartTime.inputAccessoryView = toolbar
-        txtEndTime.inputAccessoryView = toolbar
+        txtTime.inputAccessoryView = toolbar
     }
     
     /* 날짜/시간 선택 완료 */
@@ -143,10 +137,8 @@ class AddTaskViewController: UIViewController {
         // TextField에 따라 다르게 표시
         if txtDate.isFirstResponder {
             txtDate.text = getDatePickerDateValue()
-        } else if txtStartTime.isFirstResponder {
-            txtStartTime.text = getDatePickerTimeValue()
-        } else if txtEndTime.isFirstResponder {
-            txtEndTime.text = getDatePickerTimeValue()
+        } else if txtTime.isFirstResponder {
+            txtTime.text = getDatePickerTimeValue()
         } else {}
         
         self.view.endEditing(true)

@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tblTodo: UITableView!
     @IBOutlet weak var btnAdd: UIButton!
     
-    let sectionTitle: [String] = ["Limited", "Anytime"]
+    let sectionTitle: [String] = ["Scheduled", "Anytime"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     /* cell 높이 */
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let task = todoList[indexPath.row]
-        if task.description == "", task.startTime == "", task.endTime == "" {
+        if task.description == "", task.time == "" {
             return 45
         } else {
             return 65
@@ -56,12 +56,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* section 타이틀 */
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
         
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "YYYY-MM-dd"
-//        formatter.string(from: selectedDate)
-        
-        return sectionTitle[section]
+        return "\(sectionTitle[section]) \(formatter.string(from: selectedDate))"
     }
     
     /* cell 그리기 */
@@ -71,10 +69,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // cell 설정
         cell.lblTitle.text = "\(task.title)"
-        if task.startTime == "" && task.endTime == "" {
+        if task.time == "" {
             cell.lblDescription.text = "\(task.description ?? "")"
         } else {
-            cell.lblDescription.text = "\(task.startTime ?? "") ~ \(task.endTime ?? "") \(task.description ?? "")"
+            cell.lblDescription.text = "\(task.time ?? "") \(task.description ?? "")"
         }
         
         // 체크박스 버튼
@@ -126,8 +124,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let data = todoList.map { [
             "title": $0.title,
             "date": $0.date,
-            "startTime": $0.startTime ?? "",
-            "endTime": $0.endTime ?? "",
+            "time": $0.time ?? "",
             "description": $0.description ?? "",
             "complete": $0.completed
             ]
@@ -149,12 +146,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         todoList = data.map {
             let title = $0["title"] as? String
             let date = $0["date"] as? String
-            let startTime = $0["startTime"] as? String
-            let endTime = $0["endTime"] as? String
+            let time = $0["time"] as? String
             let description = $0["description"] as? String
             let complete = $0["complete"] as? Bool
             
-            return Todo(title: title!, date: date!, startTime: startTime, endTime: endTime, description: description, completed: complete!)
+            return Todo(title: title!, date: date!, time: time, description: description, completed: complete!)
         }
     }
 }
