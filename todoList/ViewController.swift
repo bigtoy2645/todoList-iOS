@@ -9,11 +9,14 @@
 import UIKit
 
 var todoList: [Todo] = []
+var selectedDate = Date()
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tblTodo: UITableView!
     @IBOutlet weak var btnAdd: UIButton!
+    
+    let sectionTitle: [String] = ["Limited", "Anytime"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +47,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             return 65
         }
+    }
+    
+    /* section 개수 */
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    /* section 타이틀 */
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "YYYY-MM-dd"
+//        formatter.string(from: selectedDate)
+        
+        return sectionTitle[section]
     }
     
     /* cell 그리기 */
