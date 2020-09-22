@@ -8,7 +8,8 @@
 
 import UIKit
 
-var todoList: [Todo] = []
+var todoScheduled: [Date : [Todo]] = [:]
+var todoAnytime: [Todo] = []
 var selectedDate = Date()
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -36,12 +37,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* cell 개수 */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todoList.count
+        // 해당 날짜 cell 개수
+        if section == 0 { return todoScheduled[selectedDate]?.count ?? 0 }
+        
+        return todoAnytime.count
     }
     
     /* cell 높이 */
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let task = todoList[indexPath.row]
+        var task: Todo
+        if indexPath.section == 0 {
+            task = todoScheduled[selectedDate]
+        } else {
+            task = todoAnytime[indexPath.row]
+        }
+        
         if task.description == "", task.time == "" {
             return 45
         } else {
@@ -91,7 +101,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* 체크박스 선택 시 동작 */
     @objc func checkboxSelection(_ sender: UIButton) {
-        todoList[sender.tag].completed.toggle() // Bool 값 변경
+        todoAnytime[sender.tag].completed.toggle() // Bool 값 변경
         tblTodo.reloadData()
     }
     
@@ -115,15 +125,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* cell 삭제 */
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        todoList.remove(at: indexPath.row)
+        if indexPath.section == 0 {
+            todoScheduled[selectedDate]?.remove(at: indexPath.row)
+        } else {
+            todoAnytime.remove(at: indexPath.row)
+        }
+        
         tblTodo.reloadData()
     }
     
     /* 데이터 저장 */
     func saveAllData() {
-        let data = todoList.map { [
+        let data = todoAnytime.map { [
             "title": $0.title,
-            "date": $0.date,
+            "date": $0.date ?? "",
             "time": $0.time ?? "",
             "description": $0.description ?? "",
             "complete": $0.completed
@@ -143,7 +158,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         // list 배열에 저장하기
-        todoList = data.map {
+        todoAnytime = data.map {
             let title = $0["title"] as? String
             let date = $0["date"] as? String
             let time = $0["time"] as? String
