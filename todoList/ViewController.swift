@@ -8,9 +8,18 @@
 
 import UIKit
 
-var todoScheduled: [Date : [Todo]] = [:]
+var todoScheduled: [String : [Todo]] = [:]  // e.g. "2020-09-23" : [Todo]
 var todoAnytime: [Todo] = []
-var selectedDate = Date()
+var selectedDate: String = ""
+
+/* TableView IndexPath에 해당하는 Task를 구한다. */
+func getTask(indexPath: IndexPath) -> Todo {
+    if indexPath.section == 0 {
+        return todoScheduled[selectedDate]?[indexPath.row] ?? Todo(title: "", date: "", time: "", description: "", completed: false)
+    } else {
+        return todoAnytime[indexPath.row]
+    }
+}
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -21,6 +30,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // 오늘 날짜 설정
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = defaultDateFormat
+        selectedDate = dateFormatter.string(from: Date())
         
         // 이전 데이터 불러오기
         loadAllData()
@@ -38,20 +52,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     /* cell 개수 */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // 해당 날짜 cell 개수
-        if section == 0 { return todoScheduled[selectedDate]?.count ?? 0 }
+        if section == 0 {
+            return todoScheduled[selectedDate]?.count ?? 0
+        }
         
         return todoAnytime.count
     }
     
     /* cell 높이 */
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        var task: Todo
-        if indexPath.section == 0 {
-            task = todoScheduled[selectedDate]
-        } else {
-            task = todoAnytime[indexPath.row]
-        }
-        
+        let task = getTask(indexPath: indexPath)
         if task.description == "", task.time == "" {
             return 45
         } else {
@@ -66,16 +76,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* section 타이틀 */
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY-MM-dd"
+        if section == 0 {
+            return "\(sectionTitle[section]) \(selectedDate)"
+        }
         
-        return "\(sectionTitle[section]) \(formatter.string(from: selectedDate))"
+        return sectionTitle[section]
     }
     
     /* cell 그리기 */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
-        let task = todoList[indexPath.row]
+        let task = getTask(indexPath: indexPath)
         
         // cell 설정
         cell.lblTitle.text = "\(task.title)"
@@ -110,7 +121,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Edit Task 화면 표시
         guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: "addTask") as? AddTaskViewController else { return }
         addTaskVC.mode = .edit
-        addTaskVC.indexRow = indexPath.row
+        addTaskVC.indexPath = indexPath
         self.navigationController?.pushViewController(addTaskVC, animated: true)
     }
     
@@ -119,7 +130,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Create Task 화면 표시
         guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: "addTask") as? AddTaskViewController else { return }
         addTaskVC.mode = .create
-        addTaskVC.indexRow = nil
+        addTaskVC.indexPath = nil
         self.navigationController?.pushViewController(addTaskVC, animated: true)
     }
     
@@ -136,6 +147,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* 데이터 저장 */
     func saveAllData() {
+        
+        // TODO - todoScheduled
+        
         let data = todoAnytime.map { [
             "title": $0.title,
             "date": $0.date ?? "",
@@ -152,6 +166,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* 데이터 불러오기 */
     func loadAllData() {
+        
+        // TODO - todoScheduled
+        
         let userDefaults = UserDefaults.standard
         guard let data = userDefaults.object(forKey: "items") as? [[String: AnyObject]] else {
             return
@@ -165,7 +182,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let description = $0["description"] as? String
             let complete = $0["complete"] as? Bool
             
-            return Todo(title: title!, date: date!, time: time, description: description, completed: complete!)
+            return Todo(title: title!, date: date, time: time, description: description, completed: complete!)
         }
     }
 }

@@ -98,9 +98,7 @@
                     <navigationItem key="navigationItem" title="Daily Tasks" id="hrW-qD-sAH">
                         <barButtonItem key="rightBarButtonItem" image="calendar" catalog="system" id="4S4-Zo-cao">
                             <connections>
-                                <segue destination="CoW-4S-Y9Z" kind="popoverPresentation" popoverAnchorBarButtonItem="4S4-Zo-cao" id="u7Q-ti-gpx">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                </segue>
+                                <segue destination="CoW-4S-Y9Z" kind="presentation" modalPresentationStyle="fullScreen" id="u7Q-ti-gpx"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -118,35 +116,67 @@
             <objects>
                 <viewController id="CoW-4S-Y9Z" customClass="CalendarViewController" customModule="DailyCheck" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wcs-nd-vgz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bWV-yS-eK2" customClass="FSCalendar">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="CoW-4S-Y9Z" id="urZ-RG-Jq2"/>
-                                    <outlet property="delegate" destination="CoW-4S-Y9Z" id="BhR-YA-kea"/>
-                                </connections>
-                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lgV-Cb-eek">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bWV-yS-eK2" customClass="FSCalendar">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="422"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="CoW-4S-Y9Z" id="urZ-RG-Jq2"/>
+                                            <outlet property="delegate" destination="CoW-4S-Y9Z" id="BhR-YA-kea"/>
+                                        </connections>
+                                    </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="CVu-b8-XOQ">
+                                        <rect key="frame" x="0.0" y="430" width="414" height="422"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CalendarCell" textLabel="yAP-jX-God" style="IBUITableViewCellStyleDefault" id="cP7-Dm-Sd5">
+                                                <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cP7-Dm-Sd5" id="qO6-tZ-FRe">
+                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yAP-jX-God">
+                                                            <rect key="frame" x="20" y="0.0" width="334" height="43.5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="CoW-4S-Y9Z" id="Hqf-NU-kPi"/>
+                                            <outlet property="delegate" destination="CoW-4S-Y9Z" id="Mut-i6-W4D"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="0BP-S9-LLi" firstAttribute="trailing" secondItem="bWV-yS-eK2" secondAttribute="trailing" id="CmB-Go-Npe"/>
-                            <constraint firstItem="bWV-yS-eK2" firstAttribute="leading" secondItem="0BP-S9-LLi" secondAttribute="leading" id="LB4-5Q-avU"/>
-                            <constraint firstItem="bWV-yS-eK2" firstAttribute="top" secondItem="0BP-S9-LLi" secondAttribute="top" id="LYi-Vg-Te7"/>
-                            <constraint firstAttribute="bottom" secondItem="bWV-yS-eK2" secondAttribute="bottom" id="sjd-0i-Sij"/>
+                            <constraint firstAttribute="bottom" secondItem="lgV-Cb-eek" secondAttribute="bottom" id="97K-uj-feg"/>
+                            <constraint firstItem="lgV-Cb-eek" firstAttribute="trailing" secondItem="0BP-S9-LLi" secondAttribute="trailing" id="NQS-5r-kti"/>
+                            <constraint firstItem="lgV-Cb-eek" firstAttribute="leading" secondItem="0BP-S9-LLi" secondAttribute="leading" id="vUe-cD-ADz"/>
+                            <constraint firstItem="lgV-Cb-eek" firstAttribute="top" secondItem="0BP-S9-LLi" secondAttribute="top" id="za1-Wv-ikW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0BP-S9-LLi"/>
                     </view>
                     <navigationItem key="navigationItem" id="T7j-7a-pAG"/>
                     <connections>
                         <outlet property="calendar" destination="bWV-yS-eK2" id="ufT-FB-ZPp"/>
+                        <outlet property="tblTasks" destination="CVu-b8-XOQ" id="xTv-cq-0qJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6QM-8u-AZs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1708" y="505"/>
+            <point key="canvasLocation" x="2095.6521739130435" y="857.8125"/>
         </scene>
         <!--Create Task-->
         <scene sceneID="bdo-5D-0Mc">
