@@ -12,7 +12,7 @@ class TodoCell: UITableViewCell {
     
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
-    @IBOutlet weak var btnCheckbox: UIButton!
+    @IBOutlet weak var btnCheckbox: CheckUIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,6 +23,9 @@ class TodoCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
 
+}
+
+class CheckUIButton : UIButton {
+    var indexPath: IndexPath?
 }

@@ -28,6 +28,7 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var btnSave: UIBarButtonItem!
     
     let datePicker = UIDatePicker()
+    var dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,28 +49,27 @@ class AddTaskViewController: UIViewController {
         if mode == .edit {
             self.title = "Edit Task"
             btnSave.isEnabled = true
+            
             // 데이터 채우기
-            if let index = indexPath {
-                let task = getTask(indexPath: index)
-                txtTitle.text = task.title
-                txtDescription.text = task.description
-                txtDate.text = task.date
-                txtTime.text = task.time
-            }
+            guard let index = indexPath else { return }
+            let task = getTask(indexPath: index)
+            txtTitle.text = task.title
+            txtDescription.text = task.description
+            txtDate.text = task.date
+            txtTime.text = task.time
         } else {
             self.title = "Create Task"
             btnSave.isEnabled = false
+            
             txtDate.text = getDatePickerDateValue()
         }
     }
     
     /* 필수 항목 입력 시 저장 버튼 활성화 */
     @objc func requiredTextChanged(_ textField: UITextField) {
-        guard
-            let taskTitle = txtTitle.text, !taskTitle.isEmpty
-            else {
-                btnSave.isEnabled = false
-                return
+        guard let taskTitle = txtTitle.text, !taskTitle.isEmpty else {
+            btnSave.isEnabled = false
+            return
         }
         btnSave.isEnabled = true
     }
@@ -92,39 +92,28 @@ class AddTaskViewController: UIViewController {
         let date = txtDate.text ?? ""
         let time = txtTime.text
         let description = txtDescription.text
+        let todoObject = Todo(title: title, date: date, time: time, description: description, isCompleted: false)
         
-        // TODO - 리팩토링
-        
-        if let index = indexPath {
-            // Task 수정
+        if let index = indexPath {  // Task 수정
             if index.section == 0 {
                 if date != "" {
                     if var scheduledTask = todoScheduled[date] {
-                        scheduledTask[index.row].title = title
-                        scheduledTask[index.row].date = date
-                        scheduledTask[index.row].time = time
-                        scheduledTask[index.row].description = description
+                        scheduledTask[index.row].updateValue(title: title, date: date, time: time, description: description)
                         todoScheduled[date] = scheduledTask
                     } else {
-                        todoScheduled.updateValue([Todo(title: title, date: date, time: time, description: description, completed: false)], forKey: date)
+                        todoScheduled.updateValue([todoObject], forKey: date)
                     }
                 } else {
                     // Scheduled -> Anytime
                     todoScheduled[date]?.remove(at: index.row)
-                    let todoObject = Todo(title: title, date: date, time: time, description: description, completed: false)
                     todoAnytime.append(todoObject)
                 }
             } else {
-                // Anytime
                 if date == "" {
-                    todoAnytime[index.row].title = title
-                    todoAnytime[index.row].date = date
-                    todoAnytime[index.row].time = time
-                    todoAnytime[index.row].description = description
+                    todoAnytime[index.row].updateValue(title: title, date: date, time: time, description: description)
                 } else {
                     // Anytime -> Scheduled
                     todoAnytime.remove(at: index.row)
-                    let todoObject = Todo(title: title, date: date, time: time, description: description, completed: false)
                     if var task = todoScheduled[date] {
                         task.append(todoObject)
                         todoScheduled[date] = task
@@ -133,9 +122,7 @@ class AddTaskViewController: UIViewController {
                     }
                 }
             }
-        } else {
-            // Task 추가
-            let todoObject = Todo(title: title, date: date, time: time, description: description, completed: false)
+        } else {                    // Task 추가
             if date != "" {
                 if var task = todoScheduled[date] {
                     task.append(todoObject)
@@ -154,19 +141,17 @@ class AddTaskViewController: UIViewController {
     
     /* 날짜 형식 문자열 */
     func getDatePickerDateValue() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = defaultDateFormat
+        dateFormatter.dateFormat = defaultDateFormat
         
-        return formatter.string(from: datePicker.date)
+        return dateFormatter.string(from: datePicker.date)
     }
     
     /* 시간 형식 문자열 */
     func getDatePickerTimeValue() -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .none
-        formatter.timeStyle = .short
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
         
-        return formatter.string(from: datePicker.date)
+        return dateFormatter.string(from: datePicker.date)
     }
     
     /* DatePicker 생성 */
@@ -174,14 +159,20 @@ class AddTaskViewController: UIViewController {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
+        let btnTrash = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashPressed))
+        let btnSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let btnDone = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
-        toolbar.setItems([btnDone], animated: true)
+        toolbar.setItems([btnTrash, btnSpace, btnDone], animated: true)
         
         txtDate.inputView = datePicker
         txtTime.inputView = datePicker
         
         txtDate.inputAccessoryView = toolbar
         txtTime.inputAccessoryView = toolbar
+        
+        // 선택된 날짜를 default로 설정
+        dateFormatter.dateFormat = defaultDateFormat
+        datePicker.date = dateFormatter.date(from: selectedDate) ?? Date()
     }
     
     /* 날짜/시간 선택 완료 */
@@ -191,6 +182,17 @@ class AddTaskViewController: UIViewController {
             txtDate.text = getDatePickerDateValue()
         } else if txtTime.isFirstResponder {
             txtTime.text = getDatePickerTimeValue()
+        } else {}
+        
+        self.view.endEditing(true)
+    }
+    
+    /* 날짜/시간 제거 */
+    @objc func trashPressed() {
+        if txtDate.isFirstResponder {
+            txtDate.text = ""
+        } else if txtTime.isFirstResponder {
+            txtTime.text = ""
         } else {}
         
         self.view.endEditing(true)

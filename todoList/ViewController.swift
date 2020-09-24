@@ -15,7 +15,7 @@ var selectedDate: String = ""
 /* TableView IndexPath에 해당하는 Task를 구한다. */
 func getTask(indexPath: IndexPath) -> Todo {
     if indexPath.section == 0 {
-        return todoScheduled[selectedDate]?[indexPath.row] ?? Todo(title: "", date: "", time: "", description: "", completed: false)
+        return todoScheduled[selectedDate]?[indexPath.row] ?? Todo(title: "", date: "", time: "", description: "", isCompleted: false)
     } else {
         return todoAnytime[indexPath.row]
     }
@@ -97,22 +97,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         // 체크박스 버튼
-        if task.completed == true {
+        if task.isCompleted == true {
             cell.btnCheckbox.setBackgroundImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         } else {
             cell.btnCheckbox.setBackgroundImage(UIImage(systemName:"circle"), for: .normal)
         }
         
         // 체크박스 선택 시 작업 추가
-        cell.btnCheckbox.tag = indexPath.row
+        cell.btnCheckbox.indexPath = indexPath
         cell.btnCheckbox.addTarget(self, action: #selector(checkboxSelection(_:)), for: .touchUpInside)
         
         return cell
     }
     
     /* 체크박스 선택 시 동작 */
-    @objc func checkboxSelection(_ sender: UIButton) {
-        todoAnytime[sender.tag].completed.toggle() // Bool 값 변경
+    @objc func checkboxSelection(_ sender: CheckUIButton) {
+        guard let indexPath = sender.indexPath else { return }
+        
+        // Complete 값 변경
+        if indexPath.section == 0 {
+            if var task = todoScheduled[selectedDate] {
+                task[indexPath.row].isCompleted.toggle()
+                todoScheduled[selectedDate] = task
+            }
+        } else {
+            todoAnytime[indexPath.row].isCompleted.toggle()
+        }
+        
         tblTodo.reloadData()
     }
     
@@ -155,7 +166,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             "date": $0.date ?? "",
             "time": $0.time ?? "",
             "description": $0.description ?? "",
-            "complete": $0.completed
+            "complete": $0.isCompleted
             ]
         }
         
@@ -182,7 +193,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let description = $0["description"] as? String
             let complete = $0["complete"] as? Bool
             
-            return Todo(title: title!, date: date, time: time, description: description, completed: complete!)
+            return Todo(title: title!, date: date, time: time, description: description, isCompleted: complete!)
         }
     }
 }

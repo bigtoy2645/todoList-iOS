@@ -13,5 +13,13 @@ struct Todo {
     var date: String?
     var time: String?
     var description: String?
-    var completed: Bool
+    var isCompleted: Bool
+    
+    /* Edit Task 값 Update */
+    mutating func updateValue(title: String, date: String?, time: String?, description: String?) {
+        self.title = title
+        self.date = date
+        self.time = time
+        self.description = description
+    }
 }
