@@ -25,6 +25,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var tblTodo: UITableView!
     @IBOutlet weak var btnAdd: UIButton!
+    @IBOutlet weak var btnEditTable: UIBarButtonItem!
     
     let sectionTitle: [String] = ["Scheduled", "Anytime"]
     
@@ -64,9 +65,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let task = getTask(indexPath: indexPath)
         if task.description == "", task.time == "" {
             return 45
-        } else {
-            return 65
         }
+        return 65
     }
     
     /* section 개수 */
@@ -156,44 +156,70 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tblTodo.reloadData()
     }
     
+    /* 수정 버튼 클릭 */
+    @IBAction func editTableButtonPressed(_ sender: UIBarButtonItem) {
+        if tblTodo.isEditing {
+            btnEditTable.title = "Edit"
+            tblTodo.setEditing(false, animated: true)
+        } else {
+            btnEditTable.title = "Done"
+            tblTodo.setEditing(true, animated: true)
+        }
+    }
+    
+    /* cell 순서 변경 허용 */
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    /* cell 순서 변경 시 조정 */
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        // TODO - 순서 변경 시 Scheduled, Anytime 처리
+        let task = todoAnytime[sourceIndexPath.row]
+        todoAnytime.remove(at: sourceIndexPath.row)
+        todoAnytime.insert(task, at: destinationIndexPath.row)
+    }
+    
     /* 데이터 저장 */
     func saveAllData() {
+        let userDefaults = UserDefaults.standard
+        let encoder = JSONEncoder()
         
-        // TODO - todoScheduled
-        
-        let data = todoAnytime.map { [
-            "title": $0.title,
-            "date": $0.date ?? "",
-            "time": $0.time ?? "",
-            "description": $0.description ?? "",
-            "complete": $0.isCompleted
-            ]
+        // Scheduled
+        if let jsonData = try? encoder.encode(todoScheduled) {
+            if let jsonString = String(data: jsonData, encoding: .utf8){
+                userDefaults.set(jsonString, forKey: sectionTitle[0])
+            }
         }
         
-        let userDefaults = UserDefaults.standard
-        userDefaults.set(data, forKey: "items")
-        userDefaults.synchronize()  // 동기화
+        // Anytime
+        if let jsonData = try? encoder.encode(todoAnytime) {
+            if let jsonString = String(data: jsonData, encoding: .utf8){
+                userDefaults.set(jsonString, forKey: sectionTitle[1])
+            }
+        }
+        
+        // 동기화
+        userDefaults.synchronize()
     }
     
     /* 데이터 불러오기 */
     func loadAllData() {
-        
-        // TODO - todoScheduled
-        
         let userDefaults = UserDefaults.standard
-        guard let data = userDefaults.object(forKey: "items") as? [[String: AnyObject]] else {
-            return
+        let decoder = JSONDecoder()
+        
+        // Scheduled
+        if let jsonString = userDefaults.value(forKey: sectionTitle[0]) as? String {
+            if let jsonData = jsonString.data(using: .utf8), let scheduledData = try? decoder.decode([String : [Todo]].self, from: jsonData) {
+                todoScheduled = scheduledData
+            }
         }
         
-        // list 배열에 저장하기
-        todoAnytime = data.map {
-            let title = $0["title"] as? String
-            let date = $0["date"] as? String
-            let time = $0["time"] as? String
-            let description = $0["description"] as? String
-            let complete = $0["complete"] as? Bool
-            
-            return Todo(title: title!, date: date, time: time, description: description, isCompleted: complete!)
+        // Anytime
+        if let jsonString = userDefaults.value(forKey: sectionTitle[1]) as? String {
+            if let jsonData = jsonString.data(using: .utf8), let anytimeData = try? decoder.decode([Todo].self, from: jsonData) {
+                todoAnytime = anytimeData
+            }
         }
     }
 }

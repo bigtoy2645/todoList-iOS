@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="wtZ-Zd-BF7">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TodoCell" rowHeight="65" id="dNP-d9-l3e" customClass="TodoCell" customModule="DailyCheck" customModuleProvider="target">
                                         <rect key="frame" x="20" y="55.5" width="374" height="65"/>
@@ -25,7 +25,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YfW-RV-791">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YfW-RV-791">
                                                     <rect key="frame" x="54" y="36" width="281" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -40,8 +40,8 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <state key="normal" backgroundImage="circle" catalog="system"/>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ymg-9w-8Ut">
-                                                    <rect key="frame" x="54" y="11" width="271" height="21.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ymg-9w-8Ut">
+                                                    <rect key="frame" x="54" y="11" width="271" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -89,13 +89,18 @@
                             <constraint firstItem="wtZ-Zd-BF7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="CbK-k8-5gA"/>
                             <constraint firstAttribute="bottom" secondItem="j5D-x8-VZE" secondAttribute="bottom" constant="60" id="GyQ-Di-Xkd"/>
                             <constraint firstItem="wtZ-Zd-BF7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="MBi-HQ-J3W"/>
-                            <constraint firstItem="wtZ-Zd-BF7" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Qlc-CH-Uic"/>
+                            <constraint firstAttribute="bottom" secondItem="wtZ-Zd-BF7" secondAttribute="bottom" id="YAq-Rr-7zf"/>
                             <constraint firstAttribute="trailing" secondItem="j5D-x8-VZE" secondAttribute="trailing" constant="50" id="pbg-RN-KLV"/>
                             <constraint firstItem="wtZ-Zd-BF7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="rnX-VR-vDK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Daily Tasks" id="hrW-qD-sAH">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="i01-96-QcM">
+                            <connections>
+                                <action selector="editTableButtonPressed:" destination="BYZ-38-t0r" id="Bb1-4y-Cs5"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="calendar" catalog="system" id="4S4-Zo-cao">
                             <connections>
                                 <segue destination="I2n-Wi-VO4" kind="presentation" modalPresentationStyle="fullScreen" id="u7Q-ti-gpx"/>
@@ -104,6 +109,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btnAdd" destination="j5D-x8-VZE" id="w7J-4w-k88"/>
+                        <outlet property="btnEditTable" destination="i01-96-QcM" id="Umy-wK-zjX"/>
                         <outlet property="tblTodo" destination="wtZ-Zd-BF7" id="683-is-YSI"/>
                     </connections>
                 </viewController>
@@ -122,22 +128,51 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="CVu-b8-XOQ">
                                 <rect key="frame" x="0.0" y="388" width="414" height="508"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CalendarCell" textLabel="yAP-jX-God" style="IBUITableViewCellStyleDefault" id="cP7-Dm-Sd5">
-                                        <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CalendarCell" rowHeight="65" id="cP7-Dm-Sd5" customClass="TodoCell" customModule="DailyCheck" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="55.5" width="374" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cP7-Dm-Sd5" id="qO6-tZ-FRe">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yAP-jX-God">
-                                                    <rect key="frame" x="20" y="0.0" width="334" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLy-S5-cx7" customClass="CheckUIButton" customModule="DailyCheck" customModuleProvider="target">
+                                                    <rect key="frame" x="20" y="21" width="24" height="23"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="24" id="XAI-a9-Xl4"/>
+                                                        <constraint firstAttribute="width" constant="24" id="dX0-Yx-5S8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <state key="normal" backgroundImage="circle" catalog="system"/>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZu-f1-fmV">
+                                                    <rect key="frame" x="54" y="11" width="300" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HWf-vU-Q7h">
+                                                    <rect key="frame" x="54" y="36" width="300" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="gLy-S5-cx7" firstAttribute="centerY" secondItem="qO6-tZ-FRe" secondAttribute="centerY" id="4Fa-GQ-8DH"/>
+                                                <constraint firstItem="HWf-vU-Q7h" firstAttribute="bottom" secondItem="qO6-tZ-FRe" secondAttribute="bottomMargin" id="5jL-HM-abK"/>
+                                                <constraint firstItem="KZu-f1-fmV" firstAttribute="leading" secondItem="gLy-S5-cx7" secondAttribute="trailing" constant="10" id="LxC-us-QIC"/>
+                                                <constraint firstItem="HWf-vU-Q7h" firstAttribute="leading" secondItem="gLy-S5-cx7" secondAttribute="trailing" constant="10" id="Rss-Mv-305"/>
+                                                <constraint firstItem="gLy-S5-cx7" firstAttribute="leading" secondItem="qO6-tZ-FRe" secondAttribute="leading" constant="20" id="YFL-I3-52i"/>
+                                                <constraint firstItem="KZu-f1-fmV" firstAttribute="top" secondItem="qO6-tZ-FRe" secondAttribute="topMargin" id="aU5-u8-wtG"/>
+                                                <constraint firstAttribute="rightMargin" secondItem="HWf-vU-Q7h" secondAttribute="right" id="uka-DM-ady"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="KZu-f1-fmV" secondAttribute="trailing" id="vnK-J7-dYK"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="btnCheckbox" destination="gLy-S5-cx7" id="1tU-rF-1cu"/>
+                                            <outlet property="lblDescription" destination="HWf-vU-Q7h" id="X1p-EI-rUp"/>
+                                            <outlet property="lblTitle" destination="KZu-f1-fmV" id="8eg-DF-uYa"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Todo {
+struct Todo : Codable {
     var title: String
     var date: String?
     var time: String?
