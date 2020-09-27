@@ -9,7 +9,7 @@
 import UIKit
 import FSCalendar
 
-class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate, UITableViewDelegate, UITableViewDataSource {
+class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var tblTasks: UITableView!
@@ -26,7 +26,11 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         let date: Date = dateFormatter.date(from: selectedDate) ?? Date()
         calendar.select(date)
         
+        // 달력 높이를 전체 뷰의 1/2로 초기화
         calendarHeightConstraint.constant = self.view.bounds.height / 2
+        // 주말 Title 색상 변경
+        calendar.calendarWeekdayView.weekdayLabels[0].textColor = UIColor(red: 255/255, green: 126/255, blue: 121/255, alpha: 1.0)
+        calendar.calendarWeekdayView.weekdayLabels[6].textColor = calendar.calendarWeekdayView.weekdayLabels[0].textColor
     }
     
     /* 날짜 선택 */
@@ -97,6 +101,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         }
         
         tblTasks.reloadData()
+        calendar.reloadData()
     }
     
     /* Done 버튼 클릭 */
@@ -119,5 +124,36 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarHeightConstraint.constant = bounds.height
         self.view.layoutIfNeeded()
+    }
+    
+    /* 달력 날짜에 이벤트 표시 */
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let dateString = dateFormatter.string(from: date)
+        if let tasks = todoScheduled[dateString], tasks.count > 0 { return 1 }
+        return 0
+    }
+    
+    /* 이벤트 색상 */
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
+        let dateString = dateFormatter.string(from: date)
+        if let tasks = todoScheduled[dateString] {
+            // 작업 미완료 시 빨간색으로 이벤트 표시
+            if tasks.filter({ $0.isCompleted == false }).count > 0 { return [UIColor.systemRed] }
+            // 작업 완료 시 회색으로 이벤트 표시
+            return [UIColor.systemGray2]
+        }
+        return nil
+    }
+    
+    /* 날짜 선택 시 이벤트 색상 */
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
+        let dateString = dateFormatter.string(from: date)
+        if let tasks = todoScheduled[dateString] {
+            // 작업 미완료 시 빨간색으로 이벤트 표시
+            if tasks.filter({ $0.isCompleted == false }).count > 0 { return [UIColor.systemRed] }
+            // 작업 완료 시 회색으로 이벤트 표시
+            return [UIColor.systemGray2]
+        }
+        return nil
     }
 }
