@@ -174,10 +174,37 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     /* cell 순서 변경 시 조정 */
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        // TODO - 순서 변경 시 Scheduled, Anytime 처리
-        let task = todoAnytime[sourceIndexPath.row]
-        todoAnytime.remove(at: sourceIndexPath.row)
-        todoAnytime.insert(task, at: destinationIndexPath.row)
+        if sourceIndexPath.section == 0 {
+            guard var scheduledTasks = todoScheduled[selectedDate] else { return }
+            var sourceTask = scheduledTasks[sourceIndexPath.row]
+            
+            if destinationIndexPath.section == 0 {  // Scheduled -> Scheduled
+                scheduledTasks[sourceIndexPath.row] = scheduledTasks[destinationIndexPath.row]
+                scheduledTasks[destinationIndexPath.row] = sourceTask
+            } else {                                // Scheduled -> Anytime
+                scheduledTasks.remove(at: sourceIndexPath.row)
+                todoScheduled[selectedDate] = scheduledTasks
+                sourceTask.date = ""
+                sourceTask.time = ""
+                todoAnytime.insert(sourceTask, at: destinationIndexPath.row)
+            }
+        } else {
+            var sourceTask = todoAnytime[sourceIndexPath.row]
+            
+            if destinationIndexPath.section == 0 {  // Anytime -> Scheduled
+                todoAnytime.remove(at: sourceIndexPath.row)
+                sourceTask.date = selectedDate
+                if var tasks = todoScheduled[selectedDate] {
+                    tasks.insert(sourceTask, at: destinationIndexPath.row)
+                    todoScheduled[selectedDate] = tasks
+                } else {
+                    todoScheduled.updateValue([sourceTask], forKey: selectedDate)
+                }
+            } else {                                // Anytime -> Anytime
+                todoAnytime[sourceIndexPath.row] = todoAnytime[destinationIndexPath.row]
+                todoAnytime[destinationIndexPath.row] = sourceTask
+            }
+        }
     }
     
     /* 데이터 저장 */
