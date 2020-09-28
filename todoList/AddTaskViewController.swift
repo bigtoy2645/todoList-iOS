@@ -26,6 +26,7 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var txtTime: UITextField!
     @IBOutlet weak var txtDescription: UITextField!
     @IBOutlet weak var btnSave: UIBarButtonItem!
+    @IBOutlet weak var viewTaskDetails: UIStackView!
     
     let datePicker = UIDatePicker()
     var dateFormatter = DateFormatter()
@@ -34,7 +35,12 @@ class AddTaskViewController: UIViewController {
         super.viewDidLoad()
         
         // DatePicker 생성
-        createDatePicker()
+        addDatePicker(textField: txtDate, useTrash: false)
+        addDatePicker(textField: txtTime, useTrash: true)
+        
+        // 선택된 날짜를 default로 설정
+        dateFormatter.dateFormat = defaultDateFormat
+        datePicker.date = dateFormatter.date(from: selectedDate) ?? Date()
         
         // callback 추가
         txtTitle.addTarget(self, action: #selector(requiredTextChanged), for: .editingChanged)
@@ -72,15 +78,6 @@ class AddTaskViewController: UIViewController {
             return
         }
         btnSave.isEnabled = true
-    }
-    
-    /* 날짜/시간 선택 시 Mode 변경 */
-    @objc func dateTextTouched(_ textField: UITextField) {
-        if textField == txtDate {
-            datePicker.datePickerMode = .date
-        } else {
-            datePicker.datePickerMode = .time
-        }
     }
     
     /* 할 일 추가/수정 */
@@ -139,6 +136,22 @@ class AddTaskViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    /* Scheduled/Anytime 선택 */
+    @IBAction func TimeToDoChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            txtDate.text = getDatePickerDateValue()
+            viewTaskDetails.subviews[0].isHidden = false
+            viewTaskDetails.subviews[1].isHidden = false
+        } else {
+            txtDate.text = ""
+            txtTime.text = ""
+            viewTaskDetails.subviews[0].isHidden = true
+            viewTaskDetails.subviews[1].isHidden = true
+        }
+    }
+    
+    // MARK: 날짜/시간 API
+    
     /* 날짜 형식 문자열 */
     func getDatePickerDateValue() -> String {
         dateFormatter.dateFormat = defaultDateFormat
@@ -155,24 +168,30 @@ class AddTaskViewController: UIViewController {
     }
     
     /* DatePicker 생성 */
-    func createDatePicker() {
+    func addDatePicker(textField: UITextField, useTrash: Bool) {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
         let btnTrash = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashPressed))
-        let btnSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let btnDone = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
-        toolbar.setItems([btnTrash, btnSpace, btnDone], animated: true)
+        if useTrash == true {
+            toolbar.setItems([btnTrash, btnSpace, btnDone], animated: true)
+        } else {
+            toolbar.setItems([btnSpace, btnDone], animated: true)
+        }
         
-        txtDate.inputView = datePicker
-        txtTime.inputView = datePicker
-        
-        txtDate.inputAccessoryView = toolbar
-        txtTime.inputAccessoryView = toolbar
-        
-        // 선택된 날짜를 default로 설정
-        dateFormatter.dateFormat = defaultDateFormat
-        datePicker.date = dateFormatter.date(from: selectedDate) ?? Date()
+        textField.inputView = datePicker
+        textField.inputAccessoryView = toolbar
+    }
+    
+    /* 날짜/시간 선택 시 Mode 변경 */
+    @objc func dateTextTouched(_ textField: UITextField) {
+        if textField == txtDate {
+            datePicker.datePickerMode = .date
+        } else {
+            datePicker.datePickerMode = .time
+        }
     }
     
     /* 날짜/시간 선택 완료 */
