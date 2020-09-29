@@ -9,17 +9,7 @@
 import UIKit
 import Foundation
 
-enum taskmode {
-    case create
-    case edit
-}
-
-let defaultDateFormat = "YYYY-MM-dd"
-
 class AddTaskViewController: UIViewController {
-    
-    var indexPath: IndexPath?
-    var mode: taskmode = .create
     
     @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var txtDate: UITextField!
@@ -27,9 +17,19 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var txtDescription: UITextField!
     @IBOutlet weak var btnSave: UIBarButtonItem!
     @IBOutlet weak var viewTaskDetails: UIStackView!
+    @IBOutlet weak var segctrlTime: UISegmentedControl!
+    
+    // MARK: - Instance Properties
     
     let datePicker = UIDatePicker()
     var dateFormatter = DateFormatter()
+    
+    var delegate: SendDataDelegate?
+    var editTask: Todo?
+    var indexPath: IndexPath?
+    var currentDate: Date?
+    
+    // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +39,12 @@ class AddTaskViewController: UIViewController {
         addDatePicker(textField: txtTime, useTrash: true)
         
         // 선택된 날짜를 default로 설정
-        dateFormatter.dateFormat = defaultDateFormat
-        datePicker.date = dateFormatter.date(from: selectedDate) ?? Date()
+        datePicker.date = currentDate ?? Date()
         
         // callback 추가
         txtTitle.addTarget(self, action: #selector(requiredTextChanged), for: .editingChanged)
         [txtDate, txtTime].forEach({ $0.addTarget(self, action: #selector(dateTextTouched), for: .touchDown) })
+        segctrlTime.addTarget(self, action: #selector(timeToDoChanged(_:)), for: .valueChanged)
         
         // Title Focus
         txtTitle.becomeFirstResponder()
@@ -52,13 +52,19 @@ class AddTaskViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         // 모드에 따라 다르게 표시
-        if mode == .edit {
+        if let task = editTask {
             self.title = "Edit Task"
             btnSave.isEnabled = true
             
+            // Scheduled / Anytime
+            if task.date != nil, task.date != "" {
+                segctrlTime.selectedSegmentIndex = 0
+            } else {
+                segctrlTime.selectedSegmentIndex = 1
+            }
+            timeToDoChanged(segctrlTime)
+            
             // 데이터 채우기
-            guard let index = indexPath else { return }
-            let task = getTask(indexPath: index)
             txtTitle.text = task.title
             txtDescription.text = task.description
             txtDate.text = task.date
@@ -71,100 +77,16 @@ class AddTaskViewController: UIViewController {
         }
     }
     
-    /* 필수 항목 입력 시 저장 버튼 활성화 */
-    @objc func requiredTextChanged(_ textField: UITextField) {
-        guard let taskTitle = txtTitle.text, !taskTitle.isEmpty else {
-            btnSave.isEnabled = false
-            return
-        }
-        btnSave.isEnabled = true
-    }
-    
-    /* 할 일 추가/수정 */
-    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        txtTitle.endEditing(true)
-        txtDescription.endEditing(true)
-        
-        let title = txtTitle.text!
-        let date = txtDate.text ?? ""
-        let time = txtTime.text
-        let description = txtDescription.text
-        let todoObject = Todo(title: title, date: date, time: time, description: description, isCompleted: false)
-        
-        if let index = indexPath {  // Task 수정
-            if index.section == 0 {
-                if date != "" {
-                    if var scheduledTask = todoScheduled[date] {
-                        scheduledTask[index.row].updateValue(title: title, date: date, time: time, description: description)
-                        todoScheduled[date] = scheduledTask
-                    } else {
-                        todoScheduled.updateValue([todoObject], forKey: date)
-                    }
-                } else {
-                    // Scheduled -> Anytime
-                    todoScheduled[date]?.remove(at: index.row)
-                    todoAnytime.append(todoObject)
-                }
-            } else {
-                if date == "" {
-                    todoAnytime[index.row].updateValue(title: title, date: date, time: time, description: description)
-                } else {
-                    // Anytime -> Scheduled
-                    todoAnytime.remove(at: index.row)
-                    if var task = todoScheduled[date] {
-                        task.append(todoObject)
-                        todoScheduled[date] = task
-                    } else {
-                        todoScheduled.updateValue([todoObject], forKey: date)
-                    }
-                }
-            }
-        } else {                    // Task 추가
-            if date != "" {
-                if var task = todoScheduled[date] {
-                    task.append(todoObject)
-                    todoScheduled[date] = task
-                } else {
-                    todoScheduled.updateValue([todoObject], forKey: date)
-                }
-            } else {
-                todoAnytime.append(todoObject)
-            }
-        }
-        
-        // 리스트 화면으로 돌아가기
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    /* Scheduled/Anytime 선택 */
-    @IBAction func TimeToDoChanged(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            txtDate.text = getDatePickerDateValue()
-            viewTaskDetails.subviews[0].isHidden = false
-            viewTaskDetails.subviews[1].isHidden = false
-        } else {
-            txtDate.text = ""
-            txtTime.text = ""
-            viewTaskDetails.subviews[0].isHidden = true
-            viewTaskDetails.subviews[1].isHidden = true
-        }
-    }
-    
-    // MARK: 날짜/시간 API
+    // MARK: - Get Date/Time
     
     /* 날짜 형식 문자열 */
     func getDatePickerDateValue() -> String {
-        dateFormatter.dateFormat = defaultDateFormat
-        
-        return dateFormatter.string(from: datePicker.date)
+        return dateFormatter.dateToString(datePicker.date)
     }
     
     /* 시간 형식 문자열 */
     func getDatePickerTimeValue() -> String {
-        dateFormatter.dateStyle = .none
-        dateFormatter.timeStyle = .short
-        
-        return dateFormatter.string(from: datePicker.date)
+        return dateFormatter.timeToString(datePicker.date)
     }
     
     /* DatePicker 생성 */
@@ -183,6 +105,47 @@ class AddTaskViewController: UIViewController {
         
         textField.inputView = datePicker
         textField.inputAccessoryView = toolbar
+    }
+    
+    // MARK: - Actions
+    
+    /* 필수 항목 입력 시 저장 버튼 활성화 */
+    @objc func requiredTextChanged(_ textField: UITextField) {
+        guard let taskTitle = txtTitle.text, !taskTitle.isEmpty else {
+            btnSave.isEnabled = false
+            return
+        }
+        btnSave.isEnabled = true
+    }
+    
+    /* 할 일 추가/수정 */
+    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        txtTitle.endEditing(true)
+        txtDescription.endEditing(true)
+        
+        let title = txtTitle.text!
+        let date = txtDate.text
+        let time = txtTime.text
+        let description = txtDescription.text
+        let todoObject = Todo(title: title, date: date, time: time, description: description, isCompleted: false)
+        
+        // DailyTasks 화면으로 돌아가기
+        delegate?.sendData(oldTask: editTask, newTask: todoObject, indexPath: indexPath)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    /* Scheduled/Anytime 선택 */
+    @objc func timeToDoChanged(_ segment: UISegmentedControl) {
+        if segment.selectedSegmentIndex == 0 {
+            txtDate.text = getDatePickerDateValue()
+            viewTaskDetails.subviews[0].isHidden = false
+            viewTaskDetails.subviews[1].isHidden = false
+        } else {
+            txtDate.text = ""
+            txtTime.text = ""
+            viewTaskDetails.subviews[0].isHidden = true
+            viewTaskDetails.subviews[1].isHidden = true
+        }
     }
     
     /* 날짜/시간 선택 시 Mode 변경 */
@@ -208,12 +171,11 @@ class AddTaskViewController: UIViewController {
     
     /* 날짜/시간 제거 */
     @objc func trashPressed() {
-        if txtDate.isFirstResponder {
-            txtDate.text = ""
-        } else if txtTime.isFirstResponder {
+        if txtTime.isFirstResponder {
             txtTime.text = ""
         } else {}
         
         self.view.endEditing(true)
     }
+    
 }

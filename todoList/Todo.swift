@@ -6,7 +6,7 @@
 //  Copyright © 2020 yurim. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 struct Todo : Codable {
     var title: String
@@ -16,10 +16,10 @@ struct Todo : Codable {
     var isCompleted: Bool
     
     /* Edit Task 값 Update */
-    mutating func updateValue(title: String, date: String?, time: String?, description: String?) {
-        self.title = title
-        self.date = date
-        self.time = time
-        self.description = description
+    mutating func updateValue(task: Todo) {
+        self.title = task.title
+        self.date = task.date
+        self.time = task.time
+        self.description = task.description
     }
 }

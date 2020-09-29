@@ -23,6 +23,26 @@ class TodoCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    /* Todo -> TodoCell */
+    func updateValue(task: Todo) {
+        // Title
+        lblTitle.text = task.title
+        
+        // Description
+        if task.time == "" {
+            lblDescription.text = "\(task.description ?? "")"
+        } else {
+            lblDescription.text = "\(task.time ?? "") \(task.description ?? "")"
+        }
+        
+        // 체크박스 버튼
+        if task.isCompleted == true {
+            btnCheckbox.setBackgroundImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+        } else {
+            btnCheckbox.setBackgroundImage(UIImage(systemName:"circle"), for: .normal)
+        }
+    }
 
 }
 

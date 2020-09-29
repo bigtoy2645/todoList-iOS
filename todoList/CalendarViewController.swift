@@ -16,15 +16,24 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     @IBOutlet weak var btnScope: UIBarButtonItem!
     @IBOutlet weak var calendarHeightConstraint: NSLayoutConstraint!
     
+    // MARK: - Instance Properties
+    
     var dateFormatter = DateFormatter()
+    
+    var delegate: SendDataDelegate?
+    var todoScheduled: [String : [Todo]] = [:]
+    var currentDate: Date?
+    var newDate: String = ""
+    
+    // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // 이전에 선택한 날짜 표시
-        dateFormatter.dateFormat = defaultDateFormat
-        let date: Date = dateFormatter.date(from: selectedDate) ?? Date()
+        let date = currentDate ?? Date()
         calendar.select(date)
+        newDate = dateFormatter.dateToString(date)
         
         // 달력 높이를 전체 뷰의 1/2로 초기화
         calendarHeightConstraint.constant = self.view.bounds.height / 2
@@ -33,20 +42,16 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         calendar.calendarWeekdayView.weekdayLabels[6].textColor = calendar.calendarWeekdayView.weekdayLabels[0].textColor
     }
     
-    /* 날짜 선택 */
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        selectedDate = dateFormatter.string(from: date)
-        tblTasks.reloadData()
-    }
+    // MARK: - Tableview Delegate
     
     /* cell 개수 */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todoScheduled[selectedDate]?.count ?? 0
+        return todoScheduled[newDate]?.count ?? 0
     }
     
     /* cell 높이 */
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let task = todoScheduled[selectedDate], task[indexPath.row].description == "", task[indexPath.row].time == "" {
+        if let task = todoScheduled[newDate], task[indexPath.row].description == "", task[indexPath.row].time == "" {
             return 45
         }
         return 65
@@ -59,29 +64,16 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     /* section 타이틀 */
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return selectedDate
+        return newDate
     }
     
     /* cell 그리기 */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CalendarCell", for: indexPath) as! TodoCell
-        
-        guard let task = todoScheduled[selectedDate]?[indexPath.row] else { return cell }
+        guard let task = todoScheduled[newDate]?[indexPath.row] else { return cell }
         
         // cell 설정
-        cell.lblTitle.text = "\(task.title)"
-        if task.time == "" {
-            cell.lblDescription.text = "\(task.description ?? "")"
-        } else {
-            cell.lblDescription.text = "\(task.time ?? "") \(task.description ?? "")"
-        }
-        
-        // 체크박스 버튼
-        if task.isCompleted == true {
-            cell.btnCheckbox.setBackgroundImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
-        } else {
-            cell.btnCheckbox.setBackgroundImage(UIImage(systemName:"circle"), for: .normal)
-        }
+        cell.updateValue(task: task)
         
         // 체크박스 선택 시 작업 추가
         cell.btnCheckbox.indexPath = indexPath
@@ -90,15 +82,59 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         return cell
     }
     
+    // MARK: - Calendar Delegate
+    
+    /* 날짜 선택 */
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        newDate = dateFormatter.dateToString(date)
+        tblTasks.reloadData()
+    }
+    
+    /* Week/Month Scope 변경 시 달력 높이 변경 */
+    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
+        calendarHeightConstraint.constant = bounds.height
+        self.view.layoutIfNeeded()
+    }
+    
+    /* 달력 날짜에 이벤트 표시 */
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let dateString = dateFormatter.dateToString(date)
+        if let tasks = todoScheduled[dateString], tasks.count > 0 { return 1 }
+        return 0
+    }
+    
+    /* 이벤트 색상 */
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
+        let dateString = dateFormatter.dateToString(date)
+        if let tasks = todoScheduled[dateString] {
+            // 작업 미완료 시 빨간색으로 이벤트 표시
+            if tasks.filter({ $0.isCompleted == false }).count > 0 { return [UIColor.systemRed] }
+            // 작업 완료 시 회색으로 이벤트 표시
+            return [UIColor.systemGray2]
+        }
+        return nil
+    }
+    
+    /* 날짜 선택 시 이벤트 색상 */
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
+        let dateString = dateFormatter.dateToString(date)
+        if let tasks = todoScheduled[dateString] {
+            // 작업 미완료 시 빨간색으로 이벤트 표시
+            if tasks.filter({ $0.isCompleted == false }).count > 0 { return [UIColor.systemRed] }
+            // 작업 완료 시 회색으로 이벤트 표시
+            return [UIColor.systemGray2]
+        }
+        return nil
+    }
+    
+    // MARK: - Actions
+    
     /* 체크박스 선택 시 동작 */
     @objc func checkboxSelection(_ sender: CheckUIButton) {
         guard let indexPath = sender.indexPath else { return }
         
         // Complete 값 변경
-        if var task = todoScheduled[selectedDate] {
-            task[indexPath.row].isCompleted.toggle()
-            todoScheduled[selectedDate] = task
-        }
+        todoScheduled[newDate]?[indexPath.row].isCompleted.toggle()
         
         tblTasks.reloadData()
         calendar.reloadData()
@@ -106,6 +142,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     /* Done 버튼 클릭 */
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+        // DailyTasks 화면으로 돌아가기
+        delegate?.sendData(scheduledTasks: todoScheduled, newDate: newDate)
         dismiss(animated: true, completion: nil)
     }
     
@@ -118,42 +156,5 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
             calendar.scope = .month
             btnScope.title = "Week"
         }
-    }
-    
-    /* Week/Month Scope 변경 시 달력 높이 변경 */
-    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
-        calendarHeightConstraint.constant = bounds.height
-        self.view.layoutIfNeeded()
-    }
-    
-    /* 달력 날짜에 이벤트 표시 */
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        let dateString = dateFormatter.string(from: date)
-        if let tasks = todoScheduled[dateString], tasks.count > 0 { return 1 }
-        return 0
-    }
-    
-    /* 이벤트 색상 */
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
-        let dateString = dateFormatter.string(from: date)
-        if let tasks = todoScheduled[dateString] {
-            // 작업 미완료 시 빨간색으로 이벤트 표시
-            if tasks.filter({ $0.isCompleted == false }).count > 0 { return [UIColor.systemRed] }
-            // 작업 완료 시 회색으로 이벤트 표시
-            return [UIColor.systemGray2]
-        }
-        return nil
-    }
-    
-    /* 날짜 선택 시 이벤트 색상 */
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
-        let dateString = dateFormatter.string(from: date)
-        if let tasks = todoScheduled[dateString] {
-            // 작업 미완료 시 빨간색으로 이벤트 표시
-            if tasks.filter({ $0.isCompleted == false }).count > 0 { return [UIColor.systemRed] }
-            // 작업 완료 시 회색으로 이벤트 표시
-            return [UIColor.systemGray2]
-        }
-        return nil
     }
 }

@@ -10,7 +10,7 @@
         <!--Daily Tasks-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="DailyCheck" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="DailyTasksViewController" customModule="DailyCheck" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -103,14 +103,14 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="calendar" catalog="system" id="4S4-Zo-cao">
                             <connections>
-                                <segue destination="I2n-Wi-VO4" kind="presentation" modalPresentationStyle="fullScreen" id="u7Q-ti-gpx"/>
+                                <action selector="calendarButtonPressed:" destination="BYZ-38-t0r" id="Ktg-i4-weK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="btnAdd" destination="j5D-x8-VZE" id="w7J-4w-k88"/>
-                        <outlet property="btnEditTable" destination="i01-96-QcM" id="Umy-wK-zjX"/>
-                        <outlet property="tblTodo" destination="wtZ-Zd-BF7" id="683-is-YSI"/>
+                        <outlet property="btnAdd" destination="j5D-x8-VZE" id="xBH-cu-tRJ"/>
+                        <outlet property="btnEditTable" destination="i01-96-QcM" id="sbQ-HD-j29"/>
+                        <outlet property="tblTodo" destination="wtZ-Zd-BF7" id="nG4-98-SsW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -120,7 +120,7 @@
         <!--Calendar View Controller-->
         <scene sceneID="uOC-t8-IpG">
             <objects>
-                <viewController id="CoW-4S-Y9Z" customClass="CalendarViewController" customModule="DailyCheck" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="calendarTask" id="CoW-4S-Y9Z" customClass="CalendarViewController" customModule="DailyCheck" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wcs-nd-vgz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -263,9 +263,6 @@
                                     <segment title="Scheduled"/>
                                     <segment title="Anytime"/>
                                 </segments>
-                                <connections>
-                                    <action selector="TimeToDoChanged:" destination="Zcp-ul-Lir" eventType="valueChanged" id="zGD-3b-iKA"/>
-                                </connections>
                             </segmentedControl>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xsL-w3-a7L">
                                 <rect key="frame" x="20" y="207" width="335" height="103"/>
@@ -350,6 +347,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="btnSave" destination="4TJ-co-pog" id="Pro-kj-SOa"/>
+                        <outlet property="segctrlTime" destination="19Z-n1-oMU" id="54R-S4-W1b"/>
                         <outlet property="txtDate" destination="ZMx-QC-3Co" id="7PR-7e-eZz"/>
                         <outlet property="txtDescription" destination="ozJ-Pe-ejp" id="d3b-ae-QFg"/>
                         <outlet property="txtTime" destination="XGv-Jd-fvV" id="WZC-Th-eSe"/>
@@ -364,6 +362,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Clb-My-Obz">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kOU-YR-cOt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xV1-Da-VqS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tQU-Tf-NCi">
@@ -375,7 +374,6 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Bfb-Bd-pQN"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kOU-YR-cOt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
         </scene>
