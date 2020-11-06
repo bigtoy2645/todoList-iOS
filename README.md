@@ -17,10 +17,8 @@ DailyCheck makes it easy to manage your to-dos by date.
 |![](/Image/light+dailytasks.png)|![](/Image/light+createtask.png)|
 |----|----|
 |![](/Image/light+calendar+month.png)|![](/Image/light+changeorder.png)|
-|----|----|
 
 #### Dark Mode
 |![](/Image/dark+dailytasks.png)|![](/Image/dark+createtask.png)|
 |----|----|
 |![](/Image/dark+calendar+month.png)|![](/Image/dark+changeorder.png)|
-|----|----|
