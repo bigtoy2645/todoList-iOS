@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  todoList
+
+  Created by yurim on 2020/12/16.
+  Copyright © 2020 yurim. All rights reserved.
+*/
+
+"CFBundleDisplayName" = "DailyCheck";
