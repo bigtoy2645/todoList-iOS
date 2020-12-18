@@ -31,6 +31,10 @@ extension DateFormatter {
     }
 }
 
+enum DefaultsKey {
+    static let isFirstLaunch = "isFirstLaunch"
+}
+
 class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tblTodo: UITableView!
@@ -61,8 +65,12 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
         // 오늘 날짜 설정
         selectedDate = dateFormatter.dateToString(Date())
         
-        // 이전 데이터 불러오기
-        loadAllData()
+        // 데이터 불러오기
+        if nil != UserDefaults.standard.value(forKey: DefaultsKey.isFirstLaunch) {
+            loadAllData()                       // 이전 데이터 불러오기
+        } else {
+            loadFirstData(date: selectedDate)   // 최초 설치 시 데이터 불러오기
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -215,6 +223,17 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
                 todoAnytime = anytimeData
             }
         }
+    }
+    
+    /* 초기 데이터 불러오기 */
+    func loadFirstData(date: String) {
+        let userDefaults = UserDefaults.standard
+        
+        userDefaults.setValue(false, forKey: DefaultsKey.isFirstLaunch)
+        todoScheduled.updateValue([Todo(title: "Create new task", date: selectedDate, time: "8:00 PM", description: "Click the plus button to add a scheduled task.", isCompleted: false)], forKey: selectedDate)
+        todoAnytime.append(Todo(title: "Update your task", date: "", time: "", description: "This task has not yet been scheduled.", isCompleted: false))
+        
+        userDefaults.synchronize()
     }
     
     /* TableView IndexPath에 해당하는 Task를 구한다. */
