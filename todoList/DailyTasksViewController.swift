@@ -13,24 +13,6 @@ protocol SendDataDelegate {
     func sendData(scheduledTasks: [String : [Todo]], newDate: String)
 }
 
-extension DateFormatter {
-    func dateToString(_ date: Date) -> String {
-        self.dateFormat = "YYYY-MM-dd"
-        return string(from: date)
-    }
-    
-    func stringToDate(_ dateString: String) -> Date? {
-        self.dateFormat = "YYYY-MM-dd"
-        return date(from: dateString)
-    }
-    
-    func timeToString(_ time: Date) -> String {
-        self.dateStyle = .none
-        self.timeStyle = .short
-        return string(from: time)
-    }
-}
-
 enum DefaultsKey {
     static let isFirstLaunch = "isFirstLaunch"
 }

@@ -18,6 +18,7 @@
 		1A932B622508FFEB00E138BA /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A932B612508FFEB00E138BA /* AddTaskViewController.swift */; };
 		1A932B64250FB62800E138BA /* TodoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A932B63250FB62800E138BA /* TodoCell.swift */; };
 		1ABA301A258A3FBA00C59C5E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1ABA301C258A3FBA00C59C5E /* InfoPlist.strings */; };
+		1ABA3028258CEFAE00C59C5E /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABA3027258CEFAE00C59C5E /* DateFormatter+Extensions.swift */; };
 		DB1EED1B8F91760B686F8205 /* Pods_todoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B82CFBEA04101A608D803BC /* Pods_todoList.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		1A932B63250FB62800E138BA /* TodoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCell.swift; sourceTree = "<group>"; };
 		1ABA301B258A3FBA00C59C5E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1ABA301D258A403000C59C5E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1ABA3027258CEFAE00C59C5E /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		2B82CFBEA04101A608D803BC /* Pods_todoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_todoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C5CF6DAA7873C784512EF27 /* Pods-todoList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoList.debug.xcconfig"; path = "Target Support Files/Pods-todoList/Pods-todoList.debug.xcconfig"; sourceTree = "<group>"; };
 		BCBD6CEBF7EA5DDDA859D634 /* Pods-todoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoList.release.xcconfig"; path = "Target Support Files/Pods-todoList/Pods-todoList.release.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		1A932B44250668C300E138BA /* todoList */ = {
 			isa = PBXGroup;
 			children = (
+				1ABA3026258CEF9500C59C5E /* Extensions */,
 				1AF2A1DC2522F88800605C2E /* AppDelegate */,
 				1A932B5B25066A4600E138BA /* Controllers */,
 				1A932B5925066A3C00E138BA /* Models */,
@@ -117,6 +120,14 @@
 				1A78F0612514E3F7008EC4D6 /* CalendarViewController.swift */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		1ABA3026258CEF9500C59C5E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1ABA3027258CEFAE00C59C5E /* DateFormatter+Extensions.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		1AF2A1DB2522F87300605C2E /* Resources */ = {
@@ -270,6 +281,7 @@
 				1A932B46250668C300E138BA /* AppDelegate.swift in Sources */,
 				1A932B48250668C300E138BA /* SceneDelegate.swift in Sources */,
 				1A78F0622514E3F7008EC4D6 /* CalendarViewController.swift in Sources */,
+				1ABA3028258CEFAE00C59C5E /* DateFormatter+Extensions.swift in Sources */,
 				1A932B5D2507670F00E138BA /* Todo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,12 +440,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = todoList/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yurim.dailycheck;
 				PRODUCT_NAME = DailyCheck;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -449,12 +463,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = todoList/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yurim.dailycheck;
 				PRODUCT_NAME = DailyCheck;
 				PROVISIONING_PROFILE_SPECIFIER = "";
