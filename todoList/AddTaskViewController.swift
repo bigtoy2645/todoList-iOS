@@ -35,6 +35,7 @@ class AddTaskViewController: UIViewController {
         super.viewDidLoad()
         
         // DatePicker 생성
+        datePicker.preferredDatePickerStyle = .wheels
         addDatePicker(textField: txtDate, useTrash: false)
         addDatePicker(textField: txtTime, useTrash: true)
         
