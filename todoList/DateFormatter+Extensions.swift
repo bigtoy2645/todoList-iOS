@@ -10,12 +10,12 @@ import Foundation
 
 extension DateFormatter {
     func dateToString(_ date: Date) -> String {
-        self.dateFormat = "YYYY-MM-dd"
+        self.dateFormat = "yyyy-MM-dd"
         return string(from: date)
     }
     
     func stringToDate(_ dateString: String) -> Date? {
-        self.dateFormat = "YYYY-MM-dd"
+        self.dateFormat = "yyyy-MM-dd"
         return date(from: dateString)
     }
     
