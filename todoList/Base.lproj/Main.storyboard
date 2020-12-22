@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xV1-Da-VqS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xV1-Da-VqS">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,20 +21,20 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TodoCell" rowHeight="65" id="dNP-d9-l3e" customClass="TodoCell" customModule="DailyCheck" customModuleProvider="target">
-                                        <rect key="frame" x="15" y="55.333332061767578" width="345" height="65"/>
+                                        <rect key="frame" x="16" y="55.333332061767578" width="343" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dNP-d9-l3e" id="6Bx-cH-XZo">
-                                            <rect key="frame" x="0.0" y="0.0" width="319" height="65"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="315.66666666666669" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YfW-RV-791">
-                                                    <rect key="frame" x="49" y="36" width="262" height="18"/>
+                                                    <rect key="frame" x="50" y="36" width="257.66666666666669" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="systemGrayColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsk-4Z-0kl" customClass="CheckUIButton" customModule="DailyCheck" customModuleProvider="target">
-                                                    <rect key="frame" x="15" y="21.666666666666664" width="24" height="22.666666666666664"/>
+                                                    <rect key="frame" x="16" y="21.666666666666664" width="24" height="22.666666666666664"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="24" id="OKN-14-8aQ"/>
                                                         <constraint firstAttribute="height" constant="24" id="X1Y-Dl-Kv9"/>
@@ -41,7 +43,7 @@
                                                     <state key="normal" backgroundImage="circle" catalog="system"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ymg-9w-8Ut">
-                                                    <rect key="frame" x="49" y="11" width="252" height="22"/>
+                                                    <rect key="frame" x="49.999999999999986" y="11" width="247.66666666666663" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -77,14 +79,15 @@
                                     <constraint firstAttribute="width" constant="60" id="PJI-mR-20i"/>
                                 </constraints>
                                 <state key="normal" backgroundImage="plus.circle.fill" catalog="system">
-                                    <color key="titleShadowColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" systemColor="systemGrayColor"/>
                                 </state>
                                 <connections>
                                     <action selector="addTaskButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xoh-sm-Gfh"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="wtZ-Zd-BF7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="CbK-k8-5gA"/>
                             <constraint firstAttribute="bottom" secondItem="j5D-x8-VZE" secondAttribute="bottom" constant="60" id="GyQ-Di-Xkd"/>
@@ -93,10 +96,9 @@
                             <constraint firstAttribute="trailing" secondItem="j5D-x8-VZE" secondAttribute="trailing" constant="50" id="pbg-RN-KLV"/>
                             <constraint firstItem="wtZ-Zd-BF7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="rnX-VR-vDK"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Daily Tasks" id="hrW-qD-sAH">
-                        <barButtonItem key="leftBarButtonItem" title="Edit" id="i01-96-QcM">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="i01-96-QcM">
                             <connections>
                                 <action selector="editTableButtonPressed:" destination="BYZ-38-t0r" id="Bb1-4y-Cs5"/>
                             </connections>
@@ -129,10 +131,10 @@
                                 <rect key="frame" x="0.0" y="388" width="375" height="424"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CalendarCell" rowHeight="65" id="cP7-Dm-Sd5" customClass="TodoCell" customModule="DailyCheck" customModuleProvider="target">
-                                        <rect key="frame" x="15" y="55.333332061767578" width="345" height="65"/>
+                                        <rect key="frame" x="16" y="55.333332061767578" width="343" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cP7-Dm-Sd5" id="qO6-tZ-FRe">
-                                            <rect key="frame" x="0.0" y="0.0" width="345" height="65"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLy-S5-cx7" customClass="CheckUIButton" customModule="DailyCheck" customModuleProvider="target">
@@ -145,15 +147,15 @@
                                                     <state key="normal" backgroundImage="circle" catalog="system"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZu-f1-fmV">
-                                                    <rect key="frame" x="54" y="11.000000000000002" width="276" height="21.666666666666671"/>
+                                                    <rect key="frame" x="54" y="11.000000000000002" width="273" height="21.666666666666671"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HWf-vU-Q7h">
-                                                    <rect key="frame" x="54" y="36" width="276" height="18"/>
+                                                    <rect key="frame" x="54" y="36" width="273" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="systemGrayColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -182,25 +184,25 @@
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bWV-yS-eK2" customClass="FSCalendar">
                                 <rect key="frame" x="0.0" y="88" width="375" height="300"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="J1t-8s-Zbu"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="todayColor">
-                                        <color key="value" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="value" systemColor="systemGray3Color"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="titleWeekendColor">
                                         <color key="value" red="1" green="0.49411764705882355" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="headerTitleColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="titleDefaultColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="weekdayTextColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -209,7 +211,8 @@
                                 </connections>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="0BP-S9-LLi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="CVu-b8-XOQ" firstAttribute="trailing" secondItem="0BP-S9-LLi" secondAttribute="trailing" id="8DJ-XJ-9HT"/>
                             <constraint firstItem="CVu-b8-XOQ" firstAttribute="leading" secondItem="0BP-S9-LLi" secondAttribute="leading" id="MVr-T8-L7i"/>
@@ -219,7 +222,6 @@
                             <constraint firstItem="bWV-yS-eK2" firstAttribute="trailing" secondItem="0BP-S9-LLi" secondAttribute="trailing" id="ZWs-74-FsC"/>
                             <constraint firstItem="CVu-b8-XOQ" firstAttribute="top" secondItem="bWV-yS-eK2" secondAttribute="bottom" id="eTr-3S-Xxe"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="0BP-S9-LLi"/>
                     </view>
                     <navigationItem key="navigationItem" id="T7j-7a-pAG">
                         <barButtonItem key="leftBarButtonItem" title="Week" id="GWh-vf-GgN">
@@ -323,7 +325,8 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="VJr-cg-adQ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="VJr-cg-adQ" firstAttribute="trailing" secondItem="ksC-ob-n8Z" secondAttribute="trailing" constant="20" id="BdZ-rY-rAf"/>
                             <constraint firstItem="xsL-w3-a7L" firstAttribute="top" secondItem="ksC-ob-n8Z" secondAttribute="bottom" constant="20" id="Dfc-Lq-J2k"/>
@@ -334,7 +337,6 @@
                             <constraint firstItem="VJr-cg-adQ" firstAttribute="trailing" secondItem="xsL-w3-a7L" secondAttribute="trailing" constant="20" id="VfR-ZX-p4y"/>
                             <constraint firstItem="19Z-n1-oMU" firstAttribute="top" secondItem="VJr-cg-adQ" secondAttribute="top" constant="20" id="fU5-lX-O9W"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="VJr-cg-adQ"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Create Task" id="Gds-Gq-uCG">
@@ -362,7 +364,6 @@
         <!--Navigation Controller-->
         <scene sceneID="Clb-My-Obz">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kOU-YR-cOt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xV1-Da-VqS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tQU-Tf-NCi">
@@ -374,6 +375,7 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Bfb-Bd-pQN"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kOU-YR-cOt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
         </scene>
@@ -420,5 +422,17 @@
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="doc.plaintext" catalog="system" width="115" height="128"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
