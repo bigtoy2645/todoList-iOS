@@ -2,6 +2,10 @@
 ![Swift](https://img.shields.io/badge/Swift-5.2-orange.svg) ![Xcode](https://img.shields.io/badge/Xcode-11.6-blue.svg)    
 DailyCheck makes it easy to manage your to-dos by date.   
 
+## App Store Download
+- en : https://apps.apple.com/kr/app/dailycheck-to-do-list/id1544950171?l=en
+- ko : https://apps.apple.com/kr/app/데일리체크-오늘의-할-일/id1544950171
+
 ## Features
 - Navigating between view controllers with protocol
 - Using [FSCalendar](https://github.com/WenchaoD/FSCalendar#screenshots)
