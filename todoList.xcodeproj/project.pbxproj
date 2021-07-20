@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A313B5026A6F45A00927EC3 /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A313B4F26A6F45A00927EC3 /* TodoViewModel.swift */; };
 		1A78F0622514E3F7008EC4D6 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A78F0612514E3F7008EC4D6 /* CalendarViewController.swift */; };
 		1A932B46250668C300E138BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A932B45250668C300E138BA /* AppDelegate.swift */; };
 		1A932B48250668C300E138BA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A932B47250668C300E138BA /* SceneDelegate.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A313B4F26A6F45A00927EC3 /* TodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewModel.swift; sourceTree = "<group>"; };
 		1A78F0612514E3F7008EC4D6 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		1A932B42250668C300E138BA /* DailyCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A932B45250668C300E138BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +65,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1A313B4E26A6EB3100927EC3 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1A313B4F26A6F45A00927EC3 /* TodoViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		1A932B39250668C300E138BA = {
 			isa = PBXGroup;
 			children = (
@@ -84,12 +94,12 @@
 		1A932B44250668C300E138BA /* todoList */ = {
 			isa = PBXGroup;
 			children = (
+				1A932B5B25066A4600E138BA /* ViewControllers */,
+				1A313B4E26A6EB3100927EC3 /* ViewModels */,
+				1A932B5925066A3C00E138BA /* Models */,
 				1ABA3026258CEF9500C59C5E /* Extensions */,
 				1AF2A1DC2522F88800605C2E /* AppDelegate */,
-				1A932B5B25066A4600E138BA /* Controllers */,
-				1A932B5925066A3C00E138BA /* Models */,
 				1AF2A1DB2522F87300605C2E /* Resources */,
-				1A932B5A25066A4200E138BA /* Views */,
 			);
 			path = todoList;
 			sourceTree = "<group>";
@@ -103,23 +113,14 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		1A932B5A25066A4200E138BA /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				1A932B4B250668C300E138BA /* Main.storyboard */,
-				1A932B50250668C500E138BA /* LaunchScreen.storyboard */,
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
-		1A932B5B25066A4600E138BA /* Controllers */ = {
+		1A932B5B25066A4600E138BA /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				1A932B49250668C300E138BA /* DailyTasksViewController.swift */,
 				1A932B612508FFEB00E138BA /* AddTaskViewController.swift */,
 				1A78F0612514E3F7008EC4D6 /* CalendarViewController.swift */,
 			);
-			name = Controllers;
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		1ABA3026258CEF9500C59C5E /* Extensions */ = {
@@ -136,6 +137,8 @@
 				1A932B4E250668C500E138BA /* Assets.xcassets */,
 				1A932B53250668C500E138BA /* Info.plist */,
 				1ABA301C258A3FBA00C59C5E /* InfoPlist.strings */,
+				1A932B50250668C500E138BA /* LaunchScreen.storyboard */,
+				1A932B4B250668C300E138BA /* Main.storyboard */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A313B5026A6F45A00927EC3 /* TodoViewModel.swift in Sources */,
 				1A932B4A250668C300E138BA /* DailyTasksViewController.swift in Sources */,
 				1A932B64250FB62800E138BA /* TodoCell.swift in Sources */,
 				1A932B622508FFEB00E138BA /* AddTaskViewController.swift in Sources */,
@@ -458,7 +462,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 39;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = todoList/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -481,7 +485,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 39;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = todoList/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

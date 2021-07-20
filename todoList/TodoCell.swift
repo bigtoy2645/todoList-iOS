@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class TodoCell: UITableViewCell {
     
@@ -14,36 +16,50 @@ class TodoCell: UITableViewCell {
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var btnCheckbox: CheckUIButton!
     
+    static let identifier = "TodoCell"
+    
+    var viewModel = TodoViewModel(Todo.empty)
+    var disposeBag = DisposeBag()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func bind(task: Todo) {
+        viewModel = TodoViewModel(task)
+        
+        // UI Binding
+        setupBindings()
     }
     
-    /* Todo -> TodoCell */
-    func updateValue(task: Todo) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = DisposeBag()
+    }
+    
+    // MARK: - UI Binding
+    
+    func setupBindings() {
         // Title
-        lblTitle.text = task.title
+        viewModel.task
+            .map { $0.title }
+            .observe(on: MainScheduler.instance)
+            .bind(to: lblTitle.rx.text)
+            .disposed(by: disposeBag)
         
         // Description
-        if task.time == "" {
-            lblDescription.text = "\(task.description ?? "")"
-        } else {
-            lblDescription.text = "\(task.time ?? "") \(task.description ?? "")"
-        }
+        viewModel.descriptionString
+            .bind(to: lblDescription.rx.text)
+            .disposed(by: disposeBag)
         
         // 체크박스 버튼
-        if task.isCompleted == true {
-            btnCheckbox.setBackgroundImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
-        } else {
-            btnCheckbox.setBackgroundImage(UIImage(systemName:"circle"), for: .normal)
-        }
+        viewModel.checkImageString
+            .map { UIImage(systemName: $0) }
+            .observe(on: MainScheduler.instance)
+            .bind(to: btnCheckbox.rx.backgroundImage())
+            .disposed(by: disposeBag)
     }
-
 }
 
 class CheckUIButton : UIButton {

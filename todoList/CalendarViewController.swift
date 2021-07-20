@@ -73,7 +73,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         guard let task = todoScheduled[newDate]?[indexPath.row] else { return cell }
         
         // cell 설정
-        cell.updateValue(task: task)
+        cell.bind(task: task)
         
         // 체크박스 선택 시 작업 추가
         cell.btnCheckbox.indexPath = indexPath

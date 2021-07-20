@@ -6,7 +6,8 @@ target 'todoList' do
   use_frameworks!
 
   # Pods for todoList
-
-pod 'FSCalendar'
+  pod 'FSCalendar'
+  pod 'RxSwift'
+  pod 'RxCocoa'
 
 end

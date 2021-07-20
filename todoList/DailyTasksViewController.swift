@@ -97,11 +97,11 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
     
     /* cell 그리기 */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TodoCell.identifier, for: indexPath) as! TodoCell
         let task = getTask(indexPath: indexPath, selectedDate: selectedDate)
         
         // cell 설정
-        cell.updateValue(task: task)
+        cell.bind(task: task)
         
         // 체크박스 선택 시 작업 추가
         cell.btnCheckbox.indexPath = indexPath
