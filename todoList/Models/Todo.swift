@@ -13,11 +13,11 @@ struct Todo: Codable {
     var date: String?
     var time: String?
     var description: String?
-    var isCompleted: Bool
+    var isCompleted: Bool = false
 }
 
 extension Todo {
-    static let empty = Todo(title: "", date: nil, time: nil, description: nil, isCompleted: false)
+    static let empty = Todo(title: "", date: "", time: "", description: "")
     
     /* Edit Task 값 Update */
     mutating func updateValue(task: Todo) {

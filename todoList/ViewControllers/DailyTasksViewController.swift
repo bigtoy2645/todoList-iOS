@@ -212,8 +212,8 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
         let userDefaults = UserDefaults.standard
         
         userDefaults.setValue(false, forKey: DefaultsKey.isFirstLaunch)
-        todoScheduled.updateValue([Todo(title: "Create new task", date: selectedDate, time: "8:00 PM", description: "Click the plus button to add a scheduled task.", isCompleted: false)], forKey: selectedDate)
-        todoAnytime.append(Todo(title: "Update your task", date: "", time: "", description: "This task has not yet been scheduled.", isCompleted: false))
+        todoScheduled.updateValue([Todo(title: "Create new task", date: selectedDate, time: "8:00 PM", description: "Click the plus button to add a scheduled task.")], forKey: selectedDate)
+        todoAnytime.append(Todo(title: "Update your task", date: "", time: "", description: "This task has not yet been scheduled."))
         
         userDefaults.synchronize()
     }
@@ -221,7 +221,7 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
     /* TableView IndexPath에 해당하는 Task를 구한다. */
     func getTask(indexPath: IndexPath, selectedDate: String) -> Todo {
         if indexPath.section == 0 {
-            return todoScheduled[selectedDate]?[indexPath.row] ?? Todo(title: "", date: "", time: "", description: "", isCompleted: false)
+            return todoScheduled[selectedDate]?[indexPath.row] ?? Todo.empty
         } else {
             return todoAnytime[indexPath.row]
         }
