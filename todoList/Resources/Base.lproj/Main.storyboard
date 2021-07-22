@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xV1-Da-VqS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xV1-Da-VqS">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,14 +21,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TodoCell" rowHeight="65" id="dNP-d9-l3e" customClass="TodoCell" customModule="DailyCheck" customModuleProvider="target">
-                                        <rect key="frame" x="16" y="55.333332061767578" width="343" height="65"/>
+                                        <rect key="frame" x="16" y="49" width="343" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dNP-d9-l3e" id="6Bx-cH-XZo">
-                                            <rect key="frame" x="0.0" y="0.0" width="315.66666666666669" height="65"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="317.33333333333331" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YfW-RV-791">
-                                                    <rect key="frame" x="50" y="36" width="257.66666666666669" height="18"/>
+                                                    <rect key="frame" x="50" y="36" width="259.33333333333331" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="systemGrayColor"/>
                                                     <nil key="highlightedColor"/>
@@ -43,7 +43,7 @@
                                                     <state key="normal" backgroundImage="circle" catalog="system"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ymg-9w-8Ut">
-                                                    <rect key="frame" x="49.999999999999986" y="11" width="247.66666666666663" height="22"/>
+                                                    <rect key="frame" x="50.000000000000014" y="11" width="249.33333333333337" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -131,7 +131,7 @@
                                 <rect key="frame" x="0.0" y="388" width="375" height="424"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CalendarCell" rowHeight="65" id="cP7-Dm-Sd5" customClass="TodoCell" customModule="DailyCheck" customModuleProvider="target">
-                                        <rect key="frame" x="16" y="55.333332061767578" width="343" height="65"/>
+                                        <rect key="frame" x="16" y="49" width="343" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cP7-Dm-Sd5" id="qO6-tZ-FRe">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="65"/>
@@ -270,59 +270,45 @@
                                 <rect key="frame" x="20" y="207" width="335" height="103"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="AKV-g1-mgM">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="21"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="103.33333333333333" height="21"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calendar" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="o4s-Rt-S9h">
                                                 <rect key="frame" x="0.0" y="1.6666666666666643" width="20.666666666666668" height="18.000000000000004"/>
                                             </imageView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Due Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZMx-QC-3Co">
-                                                <rect key="frame" x="35.666666666666657" y="0.0" width="299.33333333333337" height="21"/>
+                                                <rect key="frame" x="35.666666666666664" y="0.0" width="67.666666666666686" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="4eO-P1-NGb">
-                                        <rect key="frame" x="0.0" y="41" width="335" height="21"/>
+                                        <rect key="frame" x="0.0" y="41" width="103" height="21"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarm" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="FwE-N2-Jzk">
                                                 <rect key="frame" x="0.0" y="0.0" width="18.666666666666668" height="20"/>
                                             </imageView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Due Time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XGv-Jd-fvV">
-                                                <rect key="frame" x="33.666666666666657" y="0.0" width="301.33333333333337" height="21"/>
+                                                <rect key="frame" x="33.666666666666664" y="0.0" width="69.333333333333343" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="XGv-Jd-fvV" secondAttribute="trailing" id="0pv-Yc-E8j"/>
-                                        </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Ngq-CN-vtn">
-                                        <rect key="frame" x="0.0" y="82" width="335" height="21"/>
+                                        <rect key="frame" x="0.0" y="82" width="116.33333333333333" height="21"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doc.plaintext" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="MUb-TM-27u">
                                                 <rect key="frame" x="0.0" y="0.33333333333333215" width="18" height="20.666666666666668"/>
                                             </imageView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Description" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ozJ-Pe-ejp">
-                                                <rect key="frame" x="33" y="0.0" width="302" height="21"/>
+                                                <rect key="frame" x="32.999999999999993" y="0.0" width="83.333333333333314" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="ozJ-Pe-ejp" secondAttribute="trailing" id="jec-2v-RTd"/>
-                                        </constraints>
                                     </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="AKV-g1-mgM" firstAttribute="leading" secondItem="xsL-w3-a7L" secondAttribute="leading" id="24v-i9-9dW"/>
-                                    <constraint firstAttribute="trailing" secondItem="Ngq-CN-vtn" secondAttribute="trailing" id="7pu-iA-aNv"/>
-                                    <constraint firstAttribute="trailing" secondItem="4eO-P1-NGb" secondAttribute="trailing" id="SOb-N9-1EV"/>
-                                    <constraint firstAttribute="trailing" secondItem="AKV-g1-mgM" secondAttribute="trailing" id="n8a-9m-cdm"/>
-                                    <constraint firstItem="Ngq-CN-vtn" firstAttribute="leading" secondItem="xsL-w3-a7L" secondAttribute="leading" id="qNZ-of-igq"/>
-                                    <constraint firstItem="4eO-P1-NGb" firstAttribute="leading" secondItem="xsL-w3-a7L" secondAttribute="leading" id="s7U-hO-RcE"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="VJr-cg-adQ"/>
