@@ -23,6 +23,7 @@ class AddTaskViewController: UIViewController {
     
     // MARK: - Instance Properties
     
+    let scheduled = 0, anytime = 1
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
     var dateFormatter = DateFormatter()
@@ -63,9 +64,9 @@ class AddTaskViewController: UIViewController {
         
         // Scheduled / Anytime
         if let date = task.date, !date.isEmpty {
-            segctrlTime.selectedSegmentIndex = 0
+            segctrlTime.selectedSegmentIndex = scheduled
         } else {
-            segctrlTime.selectedSegmentIndex = 1
+            segctrlTime.selectedSegmentIndex = anytime
         }
         segctrlTime.sendActions(for: .valueChanged)
         
@@ -90,7 +91,7 @@ class AddTaskViewController: UIViewController {
         
         segctrlTime.rx.selectedSegmentIndex
             .observe(on: MainScheduler.instance)
-            .map { return ($0 == 0 ? false : true) }
+            .map { return ($0 == self.scheduled ? false : true) }
             .subscribe(onNext: {
                 self.viewTaskDetails.subviews[0].isHidden = $0
                 self.viewTaskDetails.subviews[1].isHidden = $0
@@ -154,10 +155,14 @@ class AddTaskViewController: UIViewController {
         txtTitle.endEditing(true)
         txtDescription.endEditing(true)
         
-        let todoObject = Todo(title: txtTitle.text!,
-                              date: txtDate.text,
-                              time: txtTime.text,
-                              description: txtDescription.text)
+        var date: String? = ""
+        var time: String? = ""
+        
+        if segctrlTime.selectedSegmentIndex == scheduled {
+            date = txtDate.text
+            time = txtTime.text
+        }
+        let todoObject = Todo(title: txtTitle.text!, date: date, time: time, description: txtDescription.text)
         
         // DailyTasks 화면으로 돌아가기
         delegate?.sendData(oldTask: editTask, newTask: todoObject, indexPath: indexPath)
