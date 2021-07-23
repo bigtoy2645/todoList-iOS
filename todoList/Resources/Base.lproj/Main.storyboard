@@ -19,54 +19,6 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="wtZ-Zd-BF7">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TodoCell" rowHeight="65" id="dNP-d9-l3e" customClass="TodoCell" customModule="DailyCheck" customModuleProvider="target">
-                                        <rect key="frame" x="16" y="49" width="343" height="65"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dNP-d9-l3e" id="6Bx-cH-XZo">
-                                            <rect key="frame" x="0.0" y="0.0" width="317.33333333333331" height="65"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YfW-RV-791">
-                                                    <rect key="frame" x="50" y="36" width="259.33333333333331" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="systemGrayColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsk-4Z-0kl" customClass="CheckUIButton" customModule="DailyCheck" customModuleProvider="target">
-                                                    <rect key="frame" x="16" y="21.666666666666664" width="24" height="22.666666666666664"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="24" id="OKN-14-8aQ"/>
-                                                        <constraint firstAttribute="height" constant="24" id="X1Y-Dl-Kv9"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <state key="normal" backgroundImage="circle" catalog="system"/>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ymg-9w-8Ut">
-                                                    <rect key="frame" x="50.000000000000014" y="11" width="249.33333333333337" height="22"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="dsk-4Z-0kl" firstAttribute="leading" secondItem="6Bx-cH-XZo" secondAttribute="leadingMargin" id="BXE-PL-8Pu"/>
-                                                <constraint firstItem="Ymg-9w-8Ut" firstAttribute="top" secondItem="6Bx-cH-XZo" secondAttribute="topMargin" id="Glx-C2-hHT"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="YfW-RV-791" secondAttribute="bottom" id="Jak-14-QFw"/>
-                                                <constraint firstItem="dsk-4Z-0kl" firstAttribute="centerY" secondItem="6Bx-cH-XZo" secondAttribute="centerY" id="Kvy-Ff-ZDB"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Ymg-9w-8Ut" secondAttribute="trailing" constant="10" id="Y77-QR-6xV"/>
-                                                <constraint firstItem="Ymg-9w-8Ut" firstAttribute="leading" secondItem="dsk-4Z-0kl" secondAttribute="trailing" constant="10" id="cQ3-sI-bj5"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="YfW-RV-791" secondAttribute="trailing" id="k6r-Gp-fuC"/>
-                                                <constraint firstItem="YfW-RV-791" firstAttribute="leading" secondItem="dsk-4Z-0kl" secondAttribute="trailing" constant="10" id="xdf-j0-f7N"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="btnCheckbox" destination="dsk-4Z-0kl" id="b1g-4l-EHl"/>
-                                            <outlet property="lblDescription" destination="YfW-RV-791" id="3R5-Lq-R1f"/>
-                                            <outlet property="lblTitle" destination="Ymg-9w-8Ut" id="vKJ-Zf-gUI"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="lY9-pI-Xfr"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="PGI-ve-gRd"/>
@@ -129,54 +81,6 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="CVu-b8-XOQ">
                                 <rect key="frame" x="0.0" y="388" width="375" height="424"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CalendarCell" rowHeight="65" id="cP7-Dm-Sd5" customClass="TodoCell" customModule="DailyCheck" customModuleProvider="target">
-                                        <rect key="frame" x="16" y="49" width="343" height="65"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cP7-Dm-Sd5" id="qO6-tZ-FRe">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="65"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLy-S5-cx7" customClass="CheckUIButton" customModule="DailyCheck" customModuleProvider="target">
-                                                    <rect key="frame" x="20" y="21.666666666666664" width="24" height="22.666666666666664"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="24" id="XAI-a9-Xl4"/>
-                                                        <constraint firstAttribute="width" constant="24" id="dX0-Yx-5S8"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <state key="normal" backgroundImage="circle" catalog="system"/>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZu-f1-fmV">
-                                                    <rect key="frame" x="54" y="11.000000000000002" width="273" height="21.666666666666671"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HWf-vU-Q7h">
-                                                    <rect key="frame" x="54" y="36" width="273" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="systemGrayColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="gLy-S5-cx7" firstAttribute="centerY" secondItem="qO6-tZ-FRe" secondAttribute="centerY" id="4Fa-GQ-8DH"/>
-                                                <constraint firstItem="HWf-vU-Q7h" firstAttribute="bottom" secondItem="qO6-tZ-FRe" secondAttribute="bottomMargin" id="5jL-HM-abK"/>
-                                                <constraint firstItem="KZu-f1-fmV" firstAttribute="leading" secondItem="gLy-S5-cx7" secondAttribute="trailing" constant="10" id="LxC-us-QIC"/>
-                                                <constraint firstItem="HWf-vU-Q7h" firstAttribute="leading" secondItem="gLy-S5-cx7" secondAttribute="trailing" constant="10" id="Rss-Mv-305"/>
-                                                <constraint firstItem="gLy-S5-cx7" firstAttribute="leading" secondItem="qO6-tZ-FRe" secondAttribute="leading" constant="20" id="YFL-I3-52i"/>
-                                                <constraint firstItem="KZu-f1-fmV" firstAttribute="top" secondItem="qO6-tZ-FRe" secondAttribute="topMargin" id="aU5-u8-wtG"/>
-                                                <constraint firstAttribute="rightMargin" secondItem="HWf-vU-Q7h" secondAttribute="right" id="uka-DM-ady"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="KZu-f1-fmV" secondAttribute="trailing" id="vnK-J7-dYK"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="btnCheckbox" destination="gLy-S5-cx7" id="1tU-rF-1cu"/>
-                                            <outlet property="lblDescription" destination="HWf-vU-Q7h" id="X1p-EI-rUp"/>
-                                            <outlet property="lblTitle" destination="KZu-f1-fmV" id="8eg-DF-uYa"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="CoW-4S-Y9Z" id="Hqf-NU-kPi"/>
                                     <outlet property="delegate" destination="CoW-4S-Y9Z" id="Mut-i6-W4D"/>
@@ -405,7 +309,6 @@
     <resources>
         <image name="alarm" catalog="system" width="124" height="128"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
-        <image name="circle" catalog="system" width="128" height="121"/>
         <image name="doc.plaintext" catalog="system" width="115" height="128"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">

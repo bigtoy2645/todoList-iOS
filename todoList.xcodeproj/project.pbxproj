@@ -14,10 +14,11 @@
 		1A313B6026A70C4000927EC3 /* DailyTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A313B5D26A70C4000927EC3 /* DailyTasksViewController.swift */; };
 		1A313B6126A70C4000927EC3 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A313B5E26A70C4000927EC3 /* AddTaskViewController.swift */; };
 		1A313B6226A70C4000927EC3 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A313B5F26A70C4000927EC3 /* CalendarViewController.swift */; };
-		1A313B6426A70C6700927EC3 /* TodoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A313B6326A70C6700927EC3 /* TodoCell.swift */; };
+		1A313B6426A70C6700927EC3 /* TodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A313B6326A70C6700927EC3 /* TodoTableViewCell.swift */; };
 		1A313B6B26A70CE200927EC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A313B6526A70CE200927EC3 /* LaunchScreen.storyboard */; };
 		1A313B6C26A70CE200927EC3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A313B6726A70CE200927EC3 /* InfoPlist.strings */; };
 		1A313B6D26A70CE200927EC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A313B6926A70CE200927EC3 /* Main.storyboard */; };
+		1A313B8426AAAE4B00927EC3 /* TodoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A313B8226AAAE4B00927EC3 /* TodoTableViewCell.xib */; };
 		1A932B46250668C300E138BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A932B45250668C300E138BA /* AppDelegate.swift */; };
 		1A932B48250668C300E138BA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A932B47250668C300E138BA /* SceneDelegate.swift */; };
 		DB1EED1B8F91760B686F8205 /* Pods_todoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B82CFBEA04101A608D803BC /* Pods_todoList.framework */; };
@@ -31,11 +32,12 @@
 		1A313B5D26A70C4000927EC3 /* DailyTasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DailyTasksViewController.swift; path = ViewControllers/DailyTasksViewController.swift; sourceTree = "<group>"; };
 		1A313B5E26A70C4000927EC3 /* AddTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddTaskViewController.swift; path = ViewControllers/AddTaskViewController.swift; sourceTree = "<group>"; };
 		1A313B5F26A70C4000927EC3 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarViewController.swift; path = ViewControllers/CalendarViewController.swift; sourceTree = "<group>"; };
-		1A313B6326A70C6700927EC3 /* TodoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoCell.swift; path = ViewControllers/TodoCell.swift; sourceTree = "<group>"; };
+		1A313B6326A70C6700927EC3 /* TodoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoTableViewCell.swift; path = ViewControllers/TodoTableViewCell.swift; sourceTree = "<group>"; };
 		1A313B6626A70CE200927EC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Resources/Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A313B6826A70CE200927EC3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Resources/ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A313B6A26A70CE200927EC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Resources/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A313B6E26A70CED00927EC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1A313B8326AAAE4B00927EC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/TodoTableViewCell.xib; sourceTree = "<group>"; };
 		1A932B42250668C300E138BA /* DailyCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A932B45250668C300E138BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A932B47250668C300E138BA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,7 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				1A313B5D26A70C4000927EC3 /* DailyTasksViewController.swift */,
-				1A313B6326A70C6700927EC3 /* TodoCell.swift */,
+				1A313B6326A70C6700927EC3 /* TodoTableViewCell.swift */,
 				1A313B5E26A70C4000927EC3 /* AddTaskViewController.swift */,
 				1A313B5F26A70C4000927EC3 /* CalendarViewController.swift */,
 			);
@@ -137,6 +139,7 @@
 				1A313B6726A70CE200927EC3 /* InfoPlist.strings */,
 				1A313B6526A70CE200927EC3 /* LaunchScreen.storyboard */,
 				1A313B6926A70CE200927EC3 /* Main.storyboard */,
+				1A313B8226AAAE4B00927EC3 /* TodoTableViewCell.xib */,
 				1A313B5B26A70C0E00927EC3 /* Assets.xcassets */,
 				1A932B53250668C500E138BA /* Info.plist */,
 			);
@@ -226,6 +229,7 @@
 				1A313B5C26A70C0E00927EC3 /* Assets.xcassets in Resources */,
 				1A313B6C26A70CE200927EC3 /* InfoPlist.strings in Resources */,
 				1A313B6B26A70CE200927EC3 /* LaunchScreen.storyboard in Resources */,
+				1A313B8426AAAE4B00927EC3 /* TodoTableViewCell.xib in Resources */,
 				1A313B6D26A70CE200927EC3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +304,7 @@
 				1A313B6126A70C4000927EC3 /* AddTaskViewController.swift in Sources */,
 				1A313B5A26A70BFF00927EC3 /* Todo.swift in Sources */,
 				1A932B46250668C300E138BA /* AppDelegate.swift in Sources */,
-				1A313B6426A70C6700927EC3 /* TodoCell.swift in Sources */,
+				1A313B6426A70C6700927EC3 /* TodoTableViewCell.swift in Sources */,
 				1A313B6026A70C4000927EC3 /* DailyTasksViewController.swift in Sources */,
 				1A313B6226A70C4000927EC3 /* CalendarViewController.swift in Sources */,
 				1A932B48250668C300E138BA /* SceneDelegate.swift in Sources */,
@@ -334,6 +338,14 @@
 				1A313B6A26A70CE200927EC3 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1A313B8226AAAE4B00927EC3 /* TodoTableViewCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A313B8326AAAE4B00927EC3 /* Base */,
+			);
+			name = TodoTableViewCell.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

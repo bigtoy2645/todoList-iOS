@@ -1,5 +1,5 @@
 //
-//  TodoCell.swift
+//  TodoTableViewCell.swift
 //  todoList
 //
 //  Created by yurim on 2020/09/14.
@@ -10,12 +10,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TodoCell: UITableViewCell {
+class TodoTableViewCell: UITableViewCell {
     
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var btnCheckbox: CheckUIButton!
     
+    static let nibName = "TodoTableViewCell"
     static let identifier = "TodoCell"
     
     var viewModel = TodoViewModel(Todo.empty)
@@ -50,7 +51,19 @@ class TodoCell: UITableViewCell {
         
         // Description
         viewModel.descriptionString
+            .observe(on: MainScheduler.instance)
             .bind(to: lblDescription.rx.text)
+            .disposed(by: disposeBag)
+        
+        // Time, Description 비어있으면 숨김
+        viewModel.task
+            .map {
+                if let time = $0.time, time.isEmpty == false { return false }
+                if let description = $0.description, description.isEmpty == false { return false }
+                return true
+            }
+            .observe(on: MainScheduler.instance)
+            .bind(to: lblDescription.rx.isHidden)
             .disposed(by: disposeBag)
         
         // 체크박스 버튼

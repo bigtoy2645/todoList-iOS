@@ -44,6 +44,11 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Cell 등록
+        let nibName = UINib(nibName: TodoTableViewCell.nibName, bundle: nil)
+        tblTodo.register(nibName, forCellReuseIdentifier: TodoTableViewCell.identifier)
+        tblTodo.rowHeight = UITableView.automaticDimension
+        
         // 오늘 날짜 설정
         selectedDate = dateFormatter.dateToString(Date())
         
@@ -72,15 +77,6 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
         return todoAnytime.count
     }
     
-    /* cell 높이 */
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let task = getTask(indexPath: indexPath, selectedDate: selectedDate)
-        if task.description == "", task.time == "" {
-            return 45
-        }
-        return 65
-    }
-    
     /* section 개수 */
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -97,7 +93,7 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
     
     /* cell 그리기 */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TodoCell.identifier, for: indexPath) as! TodoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TodoTableViewCell.identifier, for: indexPath) as! TodoTableViewCell
         let task = getTask(indexPath: indexPath, selectedDate: selectedDate)
         
         // cell 설정
@@ -113,7 +109,7 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
     /* cell 선택 시 수정 */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Edit Task 화면 표시
-        guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: "addTask") as? AddTaskViewController else { return }
+        guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: AddTaskViewController.storyboardID) as? AddTaskViewController else { return }
         addTaskVC.editTask = getTask(indexPath: indexPath, selectedDate: selectedDate)
         addTaskVC.indexPath = indexPath
         addTaskVC.delegate = self
@@ -265,7 +261,7 @@ class DailyTasksViewController: UIViewController, UITableViewDelegate, UITableVi
         guard let calendarVC = self.storyboard?.instantiateViewController(identifier: "calendarTask") as? CalendarViewController else { return }
         calendarVC.delegate = self
         calendarVC.todoScheduled = todoScheduled
-        calendarVC.currentDate = dateFormatter.stringToDate(selectedDate)
+        calendarVC.currentDate = dateFormatter.stringToDate(selectedDate) ?? Date()
         
         let navController = UINavigationController(rootViewController: calendarVC)
         navController.modalPresentationStyle = .fullScreen

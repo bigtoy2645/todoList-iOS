@@ -8,6 +8,8 @@
 
 import UIKit
 import FSCalendar
+import RxSwift
+import RxCocoa
 
 class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance, UITableViewDelegate, UITableViewDataSource {
     
@@ -22,7 +24,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     var delegate: SendDataDelegate?
     var todoScheduled: [String : [Todo]] = [:]
-    var currentDate: Date?
+    var currentDate = Date()
     var newDate: String = ""
     
     // MARK: - View Lifecycle
@@ -30,10 +32,14 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Cell 등록
+        let nibName = UINib(nibName: TodoTableViewCell.nibName, bundle: nil)
+        tblTasks.register(nibName, forCellReuseIdentifier: TodoTableViewCell.identifier)
+        tblTasks.rowHeight = UITableView.automaticDimension
+        
         // 이전에 선택한 날짜 표시
-        let date = currentDate ?? Date()
-        calendar.select(date)
-        newDate = dateFormatter.dateToString(date)
+        calendar.select(currentDate)
+        newDate = dateFormatter.dateToString(currentDate)
         
         // 달력 높이를 전체 뷰의 1/2로 초기화
         calendarHeightConstraint.constant = self.view.bounds.height / 2
@@ -49,19 +55,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         return todoScheduled[newDate]?.count ?? 0
     }
     
-    /* cell 높이 */
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let task = todoScheduled[newDate], task[indexPath.row].description == "", task[indexPath.row].time == "" {
-            return 45
-        }
-        return 65
-    }
-    
-    /* section 개수 */
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
     /* section 타이틀 */
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return newDate
@@ -69,7 +62,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     /* cell 그리기 */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CalendarCell", for: indexPath) as! TodoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TodoTableViewCell.identifier, for: indexPath) as! TodoTableViewCell
         guard let task = todoScheduled[newDate]?[indexPath.row] else { return cell }
         
         // cell 설정
