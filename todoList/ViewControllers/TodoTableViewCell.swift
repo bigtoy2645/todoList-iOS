@@ -13,6 +13,7 @@ import RxCocoa
 class TodoTableViewCell: UITableViewCell {
     
     @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var btnCheckbox: CheckUIButton!
     
@@ -50,20 +51,35 @@ class TodoTableViewCell: UITableViewCell {
             .disposed(by: disposeBag)
         
         // Description
-        viewModel.descriptionString
+        viewModel.task
+            .map { $0.description ?? "" }
             .observe(on: MainScheduler.instance)
             .bind(to: lblDescription.rx.text)
             .disposed(by: disposeBag)
         
-        // Time, Description 비어있으면 숨김
         viewModel.task
             .map {
-                if let time = $0.time, time.isEmpty == false { return false }
-                if let description = $0.description, description.isEmpty == false { return false }
+                if $0.description?.isEmpty == false { return false }
                 return true
             }
             .observe(on: MainScheduler.instance)
             .bind(to: lblDescription.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        // Time
+        viewModel.task
+            .map { $0.time ?? "" }
+            .observe(on: MainScheduler.instance)
+            .bind(to: lblTime.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.task
+            .map {
+                if $0.time?.isEmpty == false { return false }
+                return true
+            }
+            .observe(on: MainScheduler.instance)
+            .bind(to: lblTime.rx.isHidden)
             .disposed(by: disposeBag)
         
         // 체크박스 버튼

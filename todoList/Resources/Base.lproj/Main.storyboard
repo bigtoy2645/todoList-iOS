@@ -19,10 +19,6 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="wtZ-Zd-BF7">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="lY9-pI-Xfr"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="PGI-ve-gRd"/>
-                                </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5D-x8-VZE">
                                 <rect key="frame" x="265" y="693" width="60" height="58.666666666666629"/>

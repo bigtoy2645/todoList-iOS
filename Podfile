@@ -9,5 +9,6 @@ target 'todoList' do
   pod 'FSCalendar'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'RxDataSources'
 
 end

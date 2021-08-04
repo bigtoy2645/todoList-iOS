@@ -20,11 +20,4 @@ class TodoViewModel: NSObject {
     }
     
     lazy var checkImageString: Observable<String> = self.task.map { return $0.isCompleted ? "checkmark.circle.fill" : "circle" }
-    lazy var descriptionString: Observable<String> = self.task.map {
-        if $0.time == "" {
-            return "\($0.description ?? "")"
-        } else {
-            return "\($0.time ?? "") \($0.description ?? "")"
-        }
-    }
 }

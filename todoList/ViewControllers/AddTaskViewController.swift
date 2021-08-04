@@ -28,7 +28,6 @@ class AddTaskViewController: UIViewController {
     let scheduled = 0, anytime = 1
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
-    var dateFormatter = DateFormatter()
     
     var delegate: SendDataDelegate?
     var editTask: Todo?
@@ -56,6 +55,7 @@ class AddTaskViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         guard let task = editTask else {
             self.title = "Create Task"
+            datePicker.date = currentDate ?? Date()
             btnSave.isEnabled = false
             return
         }
@@ -75,13 +75,22 @@ class AddTaskViewController: UIViewController {
         // 데이터 채우기
         txtTitle.text = task.title
         txtDescription.text = task.description
-        txtDate.text = task.date
-        txtTime.text = task.time
+        if let date = task.date, let pickerDate = date.toDate() {
+            datePicker.date = pickerDate
+            datePicker.sendActions(for: .valueChanged)
+        }
+        if let time = task.time, let pickerTime = time.toTime() {
+            timePicker.date = pickerTime
+            timePicker.sendActions(for: .valueChanged)
+        } else {
+            txtTime.text = ""
+        }
     }
     
     // MARK: - UI Binding
     
     func setupBindings() {
+        
         txtTitle.rx.text
             .observe(on: MainScheduler.instance)
             .map {
@@ -102,13 +111,13 @@ class AddTaskViewController: UIViewController {
         
         datePicker.rx.date
             .observe(on: MainScheduler.instance)
-            .map { self.dateFormatter.dateToString($0) }
+            .map { $0.toString() }
             .bind(to: txtDate.rx.text)
             .disposed(by: disposeBag)
         
         timePicker.rx.date
             .observe(on: MainScheduler.instance)
-            .map { self.dateFormatter.timeToString($0) }
+            .map { $0.toTimeString() }
             .bind(to: txtTime.rx.text)
             .disposed(by: disposeBag)
     }
@@ -126,10 +135,8 @@ class AddTaskViewController: UIViewController {
         txtDate.inputView = datePicker
         txtDate.inputAccessoryView = toolbar
         
-        // 선택된 날짜를 default로 설정
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.datePickerMode = .date
-        datePicker.date = currentDate ?? Date()
     }
     
     func addTimePicker() {
@@ -144,10 +151,8 @@ class AddTaskViewController: UIViewController {
         txtTime.inputView = timePicker
         txtTime.inputAccessoryView = toolbar
         
-        // 선택된 날짜를 default로 설정
         timePicker.preferredDatePickerStyle = .wheels
         timePicker.datePickerMode = .time
-        timePicker.date = currentDate ?? Date()
     }
     
     // MARK: - Actions

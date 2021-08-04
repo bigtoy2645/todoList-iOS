@@ -8,20 +8,32 @@
 
 import Foundation
 
-extension DateFormatter {
-    func dateToString(_ date: Date) -> String {
-        self.dateFormat = "yyyy-MM-dd"
-        return string(from: date)
+extension Date {
+    func toString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: self)
     }
     
-    func stringToDate(_ dateString: String) -> Date? {
-        self.dateFormat = "yyyy-MM-dd"
-        return date(from: dateString)
+    func toTimeString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return formatter.string(from: self)
+    }
+}
+
+extension String {
+    func toDate() -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: self)
     }
     
-    func timeToString(_ time: Date) -> String {
-        self.dateStyle = .none
-        self.timeStyle = .short
-        return string(from: time)
+    func toTime() -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return formatter.date(from: self)
     }
 }
