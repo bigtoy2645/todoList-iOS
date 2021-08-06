@@ -15,6 +15,10 @@ enum Section: String {
     case anytime = "Anytime"
 }
 
+enum DefaultsKey {
+    static let isFirstLaunch = "isFirstLaunch"
+}
+
 class TodoListViewModel: NSObject {
     var todoScheduled = BehaviorRelay<[String : [Todo]]>(value: [:])    // e.g. "2020-09-23" : [Todo]
     var todoAnytime = BehaviorRelay<[Todo]>(value: [])
@@ -96,5 +100,68 @@ class TodoListViewModel: NSObject {
                                                 description: "Click the plus button to add a scheduled task.")]])
         self.todoAnytime.accept([Todo(title: "Update your task", date: "", time: "", description: "This task has not yet been scheduled.")])
         userDefaults.synchronize()
+    }
+    
+    // MARK: - Tasks
+    
+    /* 체크박스 변경 */
+    func changeComplete(section: Section, row: Int) {
+        if section == .scheduled {
+            var tasks = todoScheduled.value
+            let date = selectedDate.value.toString()
+            tasks[date]?[row].isCompleted.toggle()
+            todoScheduled.accept(tasks)
+        } else if section == .anytime {
+            var tasks = todoAnytime.value
+            tasks[row].isCompleted.toggle()
+            todoAnytime.accept(tasks)
+        }
+    }
+    
+    /* Todo 추가 */
+    func insert(task:Todo, section: Section, row: Int?, date: String?) {
+        var task = task
+        
+        if section == .scheduled {
+            var scheduled = todoScheduled.value
+            let date = date ?? selectedDate.value.toString()
+            var newTasks = todoScheduled.value[date] ?? []
+            
+            task.date = date
+            if let row = row { newTasks.insert(task, at: row) }
+            else { newTasks.append(task) }
+            
+            scheduled[date] = newTasks
+            todoScheduled.accept(scheduled)
+        } else if section == .anytime {
+            var anytime = todoAnytime.value
+            
+            task.date = ""
+            task.time = ""
+            if let row = row { anytime.insert(task, at: row) }
+            else { anytime.append(task) }
+            
+            todoAnytime.accept(anytime)
+        }
+    }
+    
+    /* Todo 제거 */
+    func remove(section: Section, row: Int, date: String?) -> Todo? {
+        var removedTask: Todo?
+        
+        if section == .scheduled {
+            var scheduled = todoScheduled.value
+            let date = date ?? selectedDate.value.toString()
+            
+            removedTask = scheduled[date]?.remove(at: row)
+            todoScheduled.accept(scheduled)
+        } else if section == .anytime {
+            var anytime = todoAnytime.value
+            
+            removedTask = anytime.remove(at: row)
+            todoAnytime.accept(anytime)
+        }
+        
+        return removedTask
     }
 }

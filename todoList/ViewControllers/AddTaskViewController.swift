@@ -56,6 +56,7 @@ class AddTaskViewController: UIViewController {
         guard let task = editTask else {
             self.title = "Create Task"
             datePicker.date = currentDate ?? Date()
+            datePicker.sendActions(for: .valueChanged)
             btnSave.isEnabled = false
             return
         }

@@ -16,10 +16,6 @@ protocol SendDataDelegate {
     func sendData(scheduledTasks: [String : [Todo]], newDate: Date)
 }
 
-enum DefaultsKey {
-    static let isFirstLaunch = "isFirstLaunch"
-}
-
 class DailyTasksViewController: UIViewController {
     
     @IBOutlet weak var tblTodo: UITableView!
@@ -82,42 +78,30 @@ class DailyTasksViewController: UIViewController {
         tblTodo.rx.itemDeleted
             .bind { indexPath in
                 if indexPath.section == 0 {
-                    var scheduled = self.viewModel.todoScheduled.value
-                    let date = self.viewModel.selectedDate.value.toString()
-                    scheduled[date]?.remove(at: indexPath.row)
-                    self.viewModel.todoScheduled.accept(scheduled)
+                    _ = self.viewModel.remove(section: .scheduled, row: indexPath.row, date: nil)
                 } else {
-                    var anytime = self.viewModel.todoAnytime.value
-                    anytime.remove(at: indexPath.row)
-                    self.viewModel.todoAnytime.accept(anytime)
+                    _ = self.viewModel.remove(section: .anytime, row: indexPath.row, date: nil)
                 }
             }
             .disposed(by: disposeBag)
         
         tblTodo.rx.itemMoved
             .bind { srcIndexPath, dstIndexPath in
-                var anytime = self.viewModel.todoAnytime.value
-                var scheduled = self.viewModel.todoScheduled.value
-                let date = self.viewModel.selectedDate.value.toString()
-                var task = Todo.empty
+                var movedTask: Todo?
                 
-                if srcIndexPath.section == 0 {  // Scheduled
-                    task = scheduled[date]?.remove(at: srcIndexPath.row) ?? Todo.empty
-                } else {                        // Anytime
-                    task = anytime.remove(at: srcIndexPath.row)
+                if srcIndexPath.section == 0 {
+                    movedTask = self.viewModel.remove(section: .scheduled, row: srcIndexPath.row, date: nil)
+                } else {
+                    movedTask = self.viewModel.remove(section: .anytime, row: srcIndexPath.row, date: nil)
                 }
                 
-                if dstIndexPath.section == 0 {  // Scheduled
-                    task.date = date
-                    scheduled[date]?.insert(task, at: dstIndexPath.row)
-                } else {                        // Anytime
-                    task.date = ""
-                    task.time = ""
-                    anytime.insert(task, at: dstIndexPath.row)
+                if let movedTask = movedTask {
+                    if dstIndexPath.section == 0 {
+                        self.viewModel.insert(task: movedTask, section: .scheduled, row: dstIndexPath.row, date: nil)
+                    } else {
+                        self.viewModel.insert(task: movedTask, section: .anytime, row: dstIndexPath.row, date: nil)
+                    }
                 }
-                
-                self.viewModel.todoScheduled.accept(scheduled)
-                self.viewModel.todoAnytime.accept(anytime)
             }
             .disposed(by: disposeBag)
         
@@ -146,7 +130,7 @@ class DailyTasksViewController: UIViewController {
     /* 추가 버튼 클릭 */
     @IBAction func addTaskButtonPressed(_ sender: UIButton) {
         // Create Task 화면 표시
-        guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: "addTask") as? AddTaskViewController else { return }
+        guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: AddTaskViewController.storyboardID) as? AddTaskViewController else { return }
         addTaskVC.delegate = self
         addTaskVC.currentDate = viewModel.selectedDate.value
         
@@ -167,7 +151,7 @@ class DailyTasksViewController: UIViewController {
     /* 달력 버튼 클릭 */
     @IBAction func calendarButtonPressed(_ sender: UIBarButtonItem) {
         // Calendar 화면 표시
-        guard let calendarVC = self.storyboard?.instantiateViewController(identifier: "calendarTask") as? CalendarViewController else { return }
+        guard let calendarVC = self.storyboard?.instantiateViewController(identifier: CalendarViewController.storyboardID) as? CalendarViewController else { return }
         calendarVC.delegate = self
         calendarVC.todoScheduled = viewModel.todoScheduled.value
         calendarVC.selectedDate = viewModel.selectedDate.value
@@ -183,14 +167,9 @@ class DailyTasksViewController: UIViewController {
         guard let indexPath = sender.indexPath else { return }
         
         if indexPath.section == 0 {
-            var tasks = viewModel.todoScheduled.value
-            let date = viewModel.selectedDate.value.toString()
-            tasks[date]?[indexPath.row].isCompleted.toggle()
-            viewModel.todoScheduled.accept(tasks)
+            viewModel.changeComplete(section: .scheduled, row: indexPath.row)
         } else {
-            var tasks = viewModel.todoAnytime.value
-            tasks[indexPath.row].isCompleted.toggle()
-            viewModel.todoAnytime.accept(tasks)
+            viewModel.changeComplete(section: .anytime, row: indexPath.row)
         }
     }
 }
@@ -209,30 +188,23 @@ extension DailyTasksViewController: SendDataDelegate {
     
     /* AddTask -> DailyTasks */
     func sendData(oldTask: Todo?, newTask: Todo, indexPath: IndexPath?) {
-        var anytime = viewModel.todoAnytime.value
-        var scheduled = viewModel.todoScheduled.value
         let oldDate = oldTask?.date ?? ""
         let newDate = newTask.date ?? ""
         
         // OldTask 제거
         if let _ = oldTask, let index = indexPath {
             if oldDate.isEmpty {    // Anytime
-                anytime.remove(at: index.row)
+                _ = viewModel.remove(section: .anytime, row: index.row, date: nil)
             } else {                // Scheduled
-                scheduled[oldDate]?.remove(at: index.row)
+                _ = viewModel.remove(section: .scheduled, row: index.row, date: oldTask?.date)
             }
         }
         
         // NewTask 추가
         if newDate.isEmpty {    // Anytime
-            anytime.insert(newTask, at: indexPath?.row ?? anytime.count)
+            viewModel.insert(task: newTask, section: .anytime, row: indexPath?.row, date: nil)
         } else {                // Scheduled
-            var newDateTasks = scheduled[newDate] ?? []
-            newDateTasks.insert(newTask, at: indexPath?.row ?? newDateTasks.count)
-            scheduled[newDate] = newDateTasks
+            viewModel.insert(task: newTask, section: .scheduled, row: indexPath?.row, date: newDate)
         }
-        
-        viewModel.todoAnytime.accept(anytime)
-        viewModel.todoScheduled.accept(scheduled)
     }
 }
