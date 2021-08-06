@@ -80,46 +80,44 @@ class DailyTasksViewController: UIViewController {
             .disposed(by: disposeBag)
         
         tblTodo.rx.itemDeleted
-            .bind { [weak self] indexPath in
+            .bind { indexPath in
                 if indexPath.section == 0 {
-                    self?.viewModel.removeScheduledTask(at: indexPath.row)
+                    var scheduled = self.viewModel.todoScheduled.value
+                    let date = self.viewModel.selectedDate.value.toString()
+                    scheduled[date]?.remove(at: indexPath.row)
+                    self.viewModel.todoScheduled.accept(scheduled)
                 } else {
-                    self?.viewModel.removeAnytimeTask(at: indexPath.row)
+                    var anytime = self.viewModel.todoAnytime.value
+                    anytime.remove(at: indexPath.row)
+                    self.viewModel.todoAnytime.accept(anytime)
                 }
             }
             .disposed(by: disposeBag)
         
         tblTodo.rx.itemMoved
-            .subscribe { sourceIndexPath, destinationIndexPath in
-//                if sourceIndexPath.section == 0 {
-//                    guard let scheduledTasks = todoScheduled[selectedDate] else { return }
-//                    var sourceTask = scheduledTasks[sourceIndexPath.row]
-//
-//                    if destinationIndexPath.section == 0 {  // Scheduled -> Scheduled
-//                        todoScheduled[selectedDate]?[sourceIndexPath.row] = scheduledTasks[destinationIndexPath.row]
-//                        todoScheduled[selectedDate]?[destinationIndexPath.row] = sourceTask
-//                    } else {                                // Scheduled -> Anytime
-//                        todoScheduled[selectedDate]?.remove(at: sourceIndexPath.row)
-//                        sourceTask.date = ""
-//                        sourceTask.time = ""
-//                        todoAnytime.insert(sourceTask, at: destinationIndexPath.row)
-//                    }
-//                } else {
-//                    var sourceTask = todoAnytime[sourceIndexPath.row]
-//
-//                    if destinationIndexPath.section == 0 {  // Anytime -> Scheduled
-//                        todoAnytime.remove(at: sourceIndexPath.row)
-//                        sourceTask.date = selectedDate
-//                        if todoScheduled[selectedDate] != nil {
-//                            todoScheduled[selectedDate]?.insert(sourceTask, at: destinationIndexPath.row)
-//                        } else {
-//                            todoScheduled.updateValue([sourceTask], forKey: selectedDate)
-//                        }
-//                    } else {                                // Anytime -> Anytime
-//                        todoAnytime[sourceIndexPath.row] = todoAnytime[destinationIndexPath.row]
-//                        todoAnytime[destinationIndexPath.row] = sourceTask
-//                    }
-//                }
+            .subscribe { srcIndexPath, dstIndexPath in
+                var anytime = self.viewModel.todoAnytime.value
+                var scheduled = self.viewModel.todoScheduled.value
+                let date = self.viewModel.selectedDate.value.toString()
+                var task = Todo.empty
+                
+                if srcIndexPath.section == 0 {  // Scheduled
+                    task = scheduled[date]?.remove(at: srcIndexPath.row) ?? Todo.empty
+                } else {                        // Anytime
+                    task = anytime.remove(at: srcIndexPath.row)
+                }
+                
+                if dstIndexPath.section == 0 {  // Scheduled
+                    task.date = date
+                    scheduled[date]?.insert(task, at: dstIndexPath.row)
+                } else {                        // Anytime
+                    task.date = ""
+                    task.time = ""
+                    anytime.insert(task, at: dstIndexPath.row)
+                }
+                
+                self.viewModel.todoScheduled.accept(scheduled)
+                self.viewModel.todoAnytime.accept(anytime)
             }
             .disposed(by: disposeBag)
         
@@ -133,19 +131,12 @@ class DailyTasksViewController: UIViewController {
             .bind(to: tblTodo.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        Observable.combineLatest(viewModel.todoCurrent, viewModel.todoAnytime)
-            .subscribe(onNext: { scheduled, anytime in
-                let date = self.viewModel.selectedDate.value.toString()
-                self.todoSections.accept([Task(date: date, items: scheduled), Task(date: "", items: anytime)])
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.selectedDate
-            .subscribe(onNext: {
-                let tasks = self.viewModel.todoScheduled.value[$0.toString()] ?? []
-                self.viewModel.todoCurrent.accept(tasks)
-                self.todoSections.accept([Task(date: $0.toString(), items: tasks),
-                                          Task(date: "", items: self.viewModel.todoAnytime.value)])
+        // 할일이나 날짜가 변경되면 테이블 업데이트
+        Observable.combineLatest(viewModel.todoScheduled, viewModel.todoAnytime, viewModel.selectedDate)
+            .subscribe(onNext: { scheduled, anytime, date in
+                let dateString = date.toString()
+                self.todoSections.accept([Task(date: dateString, items: scheduled[dateString] ?? []),
+                                          Task(date: "", items: anytime)])
             })
             .disposed(by: disposeBag)
     }
@@ -153,7 +144,7 @@ class DailyTasksViewController: UIViewController {
     // MARK: - Actions
     
     /* 추가 버튼 클릭 */
-    @IBAction func addTaskButtonPressed(_ sender: Any) {
+    @IBAction func addTaskButtonPressed(_ sender: UIButton) {
         // Create Task 화면 표시
         guard let addTaskVC = self.storyboard?.instantiateViewController(identifier: "addTask") as? AddTaskViewController else { return }
         addTaskVC.delegate = self
@@ -192,23 +183,14 @@ class DailyTasksViewController: UIViewController {
         guard let indexPath = sender.indexPath else { return }
         
         if indexPath.section == 0 {
-            let newValue = viewModel.todoCurrent.value.enumerated()
-                .map { index, element -> Todo in
-                    var task = element
-                    if index == indexPath.row { task.isCompleted.toggle() }
-                    return task
-                }
-            
-            viewModel.todoCurrent.accept(newValue)
+            var tasks = viewModel.todoScheduled.value
+            let date = viewModel.selectedDate.value.toString()
+            tasks[date]?[indexPath.row].isCompleted.toggle()
+            viewModel.todoScheduled.accept(tasks)
         } else {
-            let newValue = viewModel.todoAnytime.value.enumerated()
-                .map { index, element -> Todo in
-                    var task = element
-                    if index == indexPath.row { task.isCompleted.toggle() }
-                    return task
-                }
-            
-            viewModel.todoAnytime.accept(newValue)
+            var tasks = viewModel.todoAnytime.value
+            tasks[indexPath.row].isCompleted.toggle()
+            viewModel.todoAnytime.accept(tasks)
         }
     }
 }
@@ -227,37 +209,30 @@ extension DailyTasksViewController: SendDataDelegate {
     
     /* AddTask -> DailyTasks */
     func sendData(oldTask: Todo?, newTask: Todo, indexPath: IndexPath?) {
+        var anytime = viewModel.todoAnytime.value
+        var scheduled = viewModel.todoScheduled.value
         let oldDate = oldTask?.date ?? ""
         let newDate = newTask.date ?? ""
         
-        //        if let index = indexPath {      // Task 수정
-        //            if index.section == 0 {
-        //                if newDate != "" {      // Scheduled -> Scheduled
-        //                    // 날짜 변경
-        //                    if newDate != oldDate {
-        //                        todoScheduled[oldDate]?.remove(at: index.row)
-        //                        appendToScheduled(task: newTask, date: newDate)
-        //                    } else {
-        //                        todoScheduled[newDate]?[index.row].updateValue(task: newTask)
-        //                    }
-        //                } else {                // Scheduled -> Anytime
-        //                    todoScheduled[oldDate]?.remove(at: index.row)
-        //                    todoAnytime.append(newTask)
-        //                }
-        //            } else {
-        //                if newDate != "" {      // Anytime -> Scheduled
-        //                    todoAnytime.remove(at: index.row)
-        //                    appendToScheduled(task: newTask, date: newDate)
-        //                } else {                // Anytime -> Anytime
-        //                    todoAnytime[index.row].updateValue(task: newTask)
-        //                }
-        //            }
-        //        } else {                        // Task 추가
-        //            if newDate != "" {
-        //                appendToScheduled(task: newTask, date: newDate)
-        //            } else {
-        //                todoAnytime.append(newTask)
-        //            }
-        //        }
+        // OldTask 제거
+        if let _ = oldTask, let index = indexPath {
+            if oldDate.isEmpty {    // Anytime
+                anytime.remove(at: index.row)
+            } else {                // Scheduled
+                scheduled[oldDate]?.remove(at: index.row)
+            }
+        }
+        
+        // NewTask 추가
+        if newDate.isEmpty {    // Anytime
+            anytime.insert(newTask, at: indexPath?.row ?? anytime.count)
+        } else {                // Scheduled
+            var newDateTasks = scheduled[newDate] ?? []
+            newDateTasks.insert(newTask, at: indexPath?.row ?? newDateTasks.count)
+            scheduled[newDate] = newDateTasks
+        }
+        
+        viewModel.todoAnytime.accept(anytime)
+        viewModel.todoScheduled.accept(scheduled)
     }
 }

@@ -14,7 +14,7 @@ class TodoViewModel: NSObject {
     var task = BehaviorRelay<Todo>(value: Todo.empty)
     
     init(_ task: Todo) {
-        BehaviorSubject<Todo>.just(task)
+        _ = BehaviorSubject<Todo>.just(task)
             .take(1)
             .subscribe(onNext: self.task.accept(_:))
     }
