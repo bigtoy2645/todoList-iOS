@@ -34,14 +34,16 @@ class TodoListViewModel: NSObject {
         
         // 데이터 갱신 시 저장
         _ = todoScheduled
-            .subscribe(onNext: {
-                self.saveData(data: $0, key: Section.scheduled.rawValue)
+            .subscribe(onNext: { [weak self] in
+                self?.saveData(data: $0, key: Section.scheduled.rawValue)
             })
+            .disposed(by: disposeBag)
         
         _ = todoAnytime
-            .subscribe(onNext: {
-                self.saveData(data: $0, key: Section.anytime.rawValue)
+            .subscribe(onNext: { [weak self] in
+                self?.saveData(data: $0, key: Section.anytime.rawValue)
             })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Data Processing

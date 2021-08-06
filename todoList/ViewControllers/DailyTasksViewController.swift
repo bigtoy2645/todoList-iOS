@@ -95,7 +95,7 @@ class DailyTasksViewController: UIViewController {
             .disposed(by: disposeBag)
         
         tblTodo.rx.itemMoved
-            .subscribe { srcIndexPath, dstIndexPath in
+            .bind { srcIndexPath, dstIndexPath in
                 var anytime = self.viewModel.todoAnytime.value
                 var scheduled = self.viewModel.todoScheduled.value
                 let date = self.viewModel.selectedDate.value.toString()
@@ -126,17 +126,17 @@ class DailyTasksViewController: UIViewController {
             return date.isEmpty ? Section.anytime.rawValue : "\(Section.scheduled.rawValue) \(date)"
         }
         
-        todoSections
-            .observe(on: MainScheduler.instance)
-            .bind(to: tblTodo.rx.items(dataSource: dataSource))
+        todoSections.asDriver()
+            .drive(tblTodo.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         // 할일이나 날짜가 변경되면 테이블 업데이트
         Observable.combineLatest(viewModel.todoScheduled, viewModel.todoAnytime, viewModel.selectedDate)
-            .subscribe(onNext: { scheduled, anytime, date in
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] scheduled, anytime, date in
                 let dateString = date.toString()
-                self.todoSections.accept([Task(date: dateString, items: scheduled[dateString] ?? []),
-                                          Task(date: "", items: anytime)])
+                self?.todoSections.accept([Task(date: dateString, items: scheduled[dateString] ?? []),
+                                           Task(date: "", items: anytime)])
             })
             .disposed(by: disposeBag)
     }

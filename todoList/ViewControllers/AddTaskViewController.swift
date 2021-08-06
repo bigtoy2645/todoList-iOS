@@ -90,35 +90,30 @@ class AddTaskViewController: UIViewController {
     // MARK: - UI Binding
     
     func setupBindings() {
-        
-        txtTitle.rx.text
-            .observe(on: MainScheduler.instance)
+        txtTitle.rx.text.asDriver()
             .map {
                 guard let title = $0, !title.isEmpty else { return false }
                 return true
             }
-            .bind(to: btnSave.rx.isEnabled)
+            .drive(btnSave.rx.isEnabled)
             .disposed(by: disposeBag)
         
-        segctrlTime.rx.selectedSegmentIndex
-            .observe(on: MainScheduler.instance)
+        segctrlTime.rx.selectedSegmentIndex.asDriver()
             .map { return ($0 == self.scheduled ? false : true) }
-            .subscribe(onNext: {
-                self.viewTaskDetails.subviews[0].isHidden = $0
-                self.viewTaskDetails.subviews[1].isHidden = $0
+            .drive(onNext: { [weak self] in
+                self?.viewTaskDetails.subviews[0].isHidden = $0
+                self?.viewTaskDetails.subviews[1].isHidden = $0
             })
             .disposed(by: disposeBag)
         
-        datePicker.rx.date
-            .observe(on: MainScheduler.instance)
+        datePicker.rx.date.asDriver()
             .map { $0.toString() }
-            .bind(to: txtDate.rx.text)
+            .drive(txtDate.rx.text)
             .disposed(by: disposeBag)
         
-        timePicker.rx.date
-            .observe(on: MainScheduler.instance)
+        timePicker.rx.date.asDriver()
             .map { $0.toTimeString() }
-            .bind(to: txtTime.rx.text)
+            .drive(txtTime.rx.text)
             .disposed(by: disposeBag)
     }
     

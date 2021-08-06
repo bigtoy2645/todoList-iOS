@@ -43,50 +43,41 @@ class TodoTableViewCell: UITableViewCell {
     // MARK: - UI Binding
     
     func setupBindings() {
+        let task = viewModel.task.asDriver()
+        
         // Title
-        viewModel.task
-            .map { $0.title }
-            .observe(on: MainScheduler.instance)
-            .bind(to: lblTitle.rx.text)
+        task.map { $0.title }
+            .drive(lblTitle.rx.text)
             .disposed(by: disposeBag)
         
         // Description
-        viewModel.task
-            .map { $0.description ?? "" }
-            .observe(on: MainScheduler.instance)
-            .bind(to: lblDescription.rx.text)
+        task.map { $0.description ?? "" }
+            .drive(lblDescription.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.task
-            .map {
+        task.map {
                 if $0.description?.isEmpty == false { return false }
                 return true
             }
-            .observe(on: MainScheduler.instance)
-            .bind(to: lblDescription.rx.isHidden)
+            .drive(lblDescription.rx.isHidden)
             .disposed(by: disposeBag)
         
         // Time
-        viewModel.task
-            .map { $0.time ?? "" }
-            .observe(on: MainScheduler.instance)
-            .bind(to: lblTime.rx.text)
+        task.map { $0.time ?? "" }
+            .drive(lblTime.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.task
-            .map {
+        task.map {
                 if $0.time?.isEmpty == false { return false }
                 return true
             }
-            .observe(on: MainScheduler.instance)
-            .bind(to: lblTime.rx.isHidden)
+            .drive(lblTime.rx.isHidden)
             .disposed(by: disposeBag)
         
         // 체크박스 버튼
-        viewModel.checkImageString
+        viewModel.checkImageString.asDriver(onErrorJustReturn: "circle")
             .map { UIImage(systemName: $0) }
-            .observe(on: MainScheduler.instance)
-            .bind(to: btnCheckbox.rx.backgroundImage())
+            .drive(btnCheckbox.rx.backgroundImage())
             .disposed(by: disposeBag)
     }
 }
