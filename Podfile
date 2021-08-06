@@ -10,5 +10,10 @@ target 'todoList' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources'
+  
+  target 'todoListTests' do
+    # Pods for testing
+    pod 'RxTest'
+  end
 
 end

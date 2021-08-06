@@ -11,12 +11,15 @@ PODS:
   - RxRelay (6.2.0):
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
+  - RxTest (6.2.0):
+    - RxSwift (= 6.2.0)
 
 DEPENDENCIES:
   - FSCalendar
   - RxCocoa
   - RxDataSources
   - RxSwift
+  - RxTest
 
 SPEC REPOS:
   trunk:
@@ -26,6 +29,7 @@ SPEC REPOS:
     - RxDataSources
     - RxRelay
     - RxSwift
+    - RxTest
 
 SPEC CHECKSUMS:
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
@@ -34,7 +38,8 @@ SPEC CHECKSUMS:
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
+  RxTest: 0c692fa672b694373ba86d2b00033595297a2831
 
-PODFILE CHECKSUM: 01e802c0c13204083b8c568ef5997d07ac0b2f51
+PODFILE CHECKSUM: b1877df27a809e4e3ce18e5df329c2aeb079a547
 
 COCOAPODS: 1.10.1
