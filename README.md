@@ -7,14 +7,14 @@ DailyCheck makes it easy to manage your to-dos by date.
 - ko : https://apps.apple.com/kr/app/데일리체크-오늘의-할-일/id1544950171
 
 ## Features
-- Navigating between view controllers with protocol
+- MVVM Architecture Pattern
+- Using [RxSwift](https://github.com/ReactiveX/RxSwift)
 - Using [FSCalendar](https://github.com/WenchaoD/FSCalendar#screenshots)
-- Using Storyboard
-- Implement table view using custom cell
-- MVC Design Pattern
+- Using Storyboard with xib
+- Unit Testable
 - Using Autolayout
 - Save data in UserDefaults using JSONEncoder/Decoder
-- Supporting Dark Mode
+- Navigating between view controllers with protocol
 
 ## Screenshots
 #### Light Mode
