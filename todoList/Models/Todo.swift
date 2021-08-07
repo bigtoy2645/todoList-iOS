@@ -16,14 +16,15 @@ struct Todo: Codable {
     var isCompleted: Bool = false
 }
 
-extension Todo {
+extension Todo: Equatable {
     static let empty = Todo(title: "", date: "", time: "", description: "")
     
-    /* Edit Task 값 Update */
-    mutating func updateValue(task: Todo) {
-        self.title = task.title
-        self.date = task.date
-        self.time = task.time
-        self.description = task.description
+    static func == (lhs: Todo, rhs: Todo) -> Bool {
+        return (lhs.title == rhs.title &&
+                    lhs.date == rhs.date &&
+                    lhs.time == rhs.time &&
+                    lhs.date == rhs.date &&
+                    lhs.description == rhs.description &&
+                    lhs.isCompleted == rhs.isCompleted)
     }
 }
