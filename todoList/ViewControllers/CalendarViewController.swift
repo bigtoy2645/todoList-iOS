@@ -11,7 +11,7 @@ import FSCalendar
 import RxSwift
 import RxCocoa
 
-class CalendarViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CalendarViewController: UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var tblTasks: UITableView!
@@ -46,7 +46,7 @@ class CalendarViewController: UIViewController, UITableViewDelegate, UITableView
         calendar.calendarWeekdayView.weekdayLabels[6].textColor = calendar.calendarWeekdayView.weekdayLabels[0].textColor
     }
     
-    // MARK: - Tableview Delegate
+    // MARK: - Tableview DataSource
     
     /* cell 개수 */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

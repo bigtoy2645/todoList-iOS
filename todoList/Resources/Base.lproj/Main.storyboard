@@ -79,7 +79,6 @@
                                 <rect key="frame" x="0.0" y="388" width="375" height="424"/>
                                 <connections>
                                     <outlet property="dataSource" destination="CoW-4S-Y9Z" id="Hqf-NU-kPi"/>
-                                    <outlet property="delegate" destination="CoW-4S-Y9Z" id="Mut-i6-W4D"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bWV-yS-eK2" customClass="FSCalendar">
