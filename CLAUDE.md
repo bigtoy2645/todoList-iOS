@@ -32,6 +32,8 @@ Progress is tracked as [GitHub milestones](https://github.com/bigtoy2645/todoLis
 
 Workspace: `todoList.xcworkspace` (CocoaPods — do not use `.xcodeproj` directly). Scheme: `todoList`. Bundle id: `com.yurim.dailycheck`.
 
+**Prefer the `xcodebuild` MCP server over raw shell when available.** `.mcp.json` configures [XcodeBuildMCP](https://github.com/getsentry/XcodeBuildMCP) via `npx xcodebuildmcp@2 mcp` — it exposes structured tools for build / test / simulator / UI automation / screenshots. Requires **Node 20+** on PATH. Verify in a Claude Code session with `/mcp` (the server should list healthy). The raw commands below remain the fallback.
+
 ```sh
 # Install pods (post_install hook forces every pod to iOS 17.0)
 pod install
